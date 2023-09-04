@@ -5,54 +5,85 @@
 //     gettimeofday();
 // }
 
-void    *ft_routine()
+void    *ft_routine(void *philo)
 {
-    printf("I am a philo\n");
+   printf("I am philo %d\n", ((t_philo *)philo)->id);
 }
 
-void    ft_create_threads(t_philo *philo, pthread_t threads)
+void    ft_create_threads(t_table *table, t_philo *philo)
 {
     int i;
-    
-    i = 0;
-    while (i < philo->nbr)
+
+    i = 1;
+    while (i <= table->philo_nbr)
     {
-        if (pthread_create(threads + i, NULL, &ft_routine, NULL) != 0) {
+        philo->id = i;
+        if (pthread_create(&philo->thread, NULL, &ft_routine, philo) != 0) {
             //return 1;
-            exit(0);
+            exit(3);
         }
+
         i++;
     }
 }
 
-void    ft_destroy_threads(t_philo *philo, pthread_t threads)
+void    ft_destroy_threads(t_table *table, t_philo *philo)
 {
     int i;
     
     i = 0;
-    while (i < philo->nbr)
+    while (i < table->philo_nbr)
     {
-        if (pthread_join(threads[i], NULL) != 0) {
+        if (pthread_join(philo->thread, NULL) != 0) {
             //return 2;
             exit(0);
         }
         i++;
-        printf("Thread %d has ended\n", i);
+        printf("Thread %d has ended\n", philo->id);
     }
 }
 
+void    ft_create_philo(int i)
+{
+    t_philo *philo;
+    
+    philo = malloc(sizeof(*philo));
+    // if (!philo)
+        // ft_free_and_exit();
+    philo->id = i;
+    philo->status = IDLE;
+    if (pthread_create(&philo->thread, NULL, &ft_routine, philo) != 0) {
+            //return 1;
+        exit(3);
+    }
+    if (pthread_join(philo->thread, NULL) != 0) {
+            //return 2;
+        exit(0);
+    }
 
+}
+
+void    ft_init_table(t_table *table, char **argv)
+{
+    // ft_check_arg()
+    int i;
+
+    i = 1;
+    table->philo_nbr = ft_atoi(argv[1]);
+    while(i <= table->philo_nbr)
+        ft_create_philo(i++);
+    //ft_create_philo(1);
+    
+}
 
 int main(int argc, char **argv)
 {
-    t_philo philo;
-    philo.nbr = ft_atoi(argv[1]);
-
-
-    pthread_t   threads[philo.nbr];
-
-    ft_create_threads(&philo, &threads);
-    ft_destroy_threads(&philo, &threads);
+    t_table table;
+    //t_philo philo;
+    
+    ft_init_table(&table, argv);
+    //ft_create_threads(&table, &philo);
+   // ft_destroy_threads(&table, &philo);
 
     return (0);
 }
