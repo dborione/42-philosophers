@@ -3,7 +3,6 @@
 
 # include <pthread.h>
 # include <stdio.h>
-# include "../libft/includes/libft.h"
 
 typedef struct s_node
 {
@@ -17,5 +16,8 @@ typedef struct s_philo {
     int time_to_sleep;
     int time_to_eat;
 } t_philo;
+
+int	ft_atoi(const char *str);
+
 
 #endif

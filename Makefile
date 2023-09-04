@@ -15,7 +15,7 @@ CC = gcc
 CFLAGS = -Wall -Wextra 
 
 #	Sources
-FILES = main.c
+FILES = main.c utils.c
 
 FILES_BONUS = main_bonus.c
 
@@ -31,11 +31,6 @@ OBJS_BONUS = $(SRCS_BONUS:.c=.o)
 NAME = philo
 RM = rm -f
 
-#Libft
-LIBFT = libft.a
-LIBFT_DIR = ./libft/
-LIBFT_PATH = ./libft/libft.a
-
 #	Colours
 GREEN = \033[32m
 YELLOW = \033[33m
@@ -48,29 +43,19 @@ all :	$(NAME)
 .c.o:
 	$(CC) $(CFLAGS) -c $< -o $@
 
-$(LIBFT): 
-	make -C $(LIBFT_DIR)
-
 $(NAME): $(OBJS)
-	@make -C $(LIBFT_DIR)
-	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(LIBFT_PATH)
+	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
 	@echo "$(GREEN)[Done!]$(DEFAULT)"
-
-#bonus: $(LIBFT) $(OBJS_BONUS)
-#	$(CC) $(CFLAGS) $(OBJS_BONUS) -o $(NAME) $(LIBFT_PATH)
-#	@echo "$(GREEN)[Done!]$(DEFAULT)"
 
 #	Cleaning
 clean:
 	@echo "$(YELLOW)[Cleaning...]$(DEFAULT)"
-	@make clean -C $(LIBFT_DIR)
 	$(RM) $(OBJS)
 #	$(RM) $(OBJS_BONUS)
 	@echo "$(RED)[Objects Cleaned!]$(DEAFULT)"
 
 fclean: clean
 	$(RM) $(NAME)
-	@make fclean -C $(LIBFT_DIR)
 	@echo "$(RED)[Executable File Cleaned!]$(DEFAULT)"
 
 re: fclean all
