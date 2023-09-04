@@ -52,6 +52,7 @@ void    ft_create_philo(int i)
         // ft_free_and_exit();
     philo->id = i;
     philo->status = IDLE;
+    philo->next = NULL;
     if (pthread_create(&philo->thread, NULL, &ft_routine, philo) != 0) {
             //return 1;
         exit(3);
@@ -80,10 +81,11 @@ int main(int argc, char **argv)
 {
     t_table table;
     //t_philo philo;
-    
+    pthread_mutex_t  *forks;
+
     ft_init_table(&table, argv);
     //ft_create_threads(&table, &philo);
-   // ft_destroy_threads(&table, &philo);
+    //ft_destroy_threads(&table, &philo);
 
     return (0);
 }
