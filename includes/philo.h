@@ -3,6 +3,8 @@
 
 # include <pthread.h>
 # include <stdio.h>
+# include <sys/time.h> //gettimeofday
+# include <stdlib.h> //exit
 
 typedef struct s_node
 {
