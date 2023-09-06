@@ -1,6 +1,7 @@
 #ifndef PHILO_H
 # define PHILO_H
 
+# include <unistd.h> //NULL
 # include <pthread.h>
 # include <stdio.h>
 # include <sys/time.h> //gettimeofday
@@ -33,6 +34,10 @@ typedef struct s_philo {
 }   t_philo;
 
 int	ft_atoi(const char *str);
-
+void    *ft_routine(void *philo);
+void    ft_init_sim(char **argv);
+void    ft_init_table(char **argv, t_table *table);
+void    ft_init_philos(t_table *table, t_philo **philo);
+void    ft_create_philo(int i, t_philo *philo);
 
 #endif

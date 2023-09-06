@@ -12,10 +12,10 @@
 
 #	Compiler
 CC = gcc
-CFLAGS = -Wall -Wextra 
+CFLAGS = -Wall -Wextra -pthread #-Werror
 
 #	Sources
-FILES = main.c utils.c
+FILES = main.c utils.c initialize.c \
 
 FILES_BONUS = main_bonus.c
 
