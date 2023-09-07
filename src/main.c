@@ -7,9 +7,9 @@
 
 void    *ft_routine(void *philo)
 {
-   printf("I am philo %d and I am", ((t_philo *)philo)->id);
-   if ((((t_philo *)philo)->status) == 0)
-        printf(" idle\n");
+   printf("I am philo %d\n", ((t_philo *)philo)->id);
+//    if ((((t_philo *)philo)->status) == 0)
+//         printf(" idle\n");
 }
 
 // void    ft_destroy_threads(t_table *table, t_philo *philo)

@@ -28,10 +28,7 @@ void    ft_create_philo(int i, t_philo *philo)
     philo->id = i + 1;
     philo->status = IDLE;
     //printf("%d\n", philo->id);
-    // if (pthread_create(&philo->thread, NULL, &ft_routine, philo) != 0) {
-    //         //return 1;
-    //     exit(3);
-    // }
+
     // if (pthread_join(philo->thread, NULL) != 0)
     //     exit(0);   
 
@@ -46,8 +43,18 @@ void    ft_init_philos(t_table *t)
     {
         t->philo[i].id = i + 1;
         t->philo[i].status = IDLE;
+        if (pthread_create(&t->philo[i].thread, NULL, &ft_routine, &t->philo[i]) != 0)
+            exit(3);
         i++;
     }
+    i = 0;
+    while (i < t->philo_nbr)
+    {
+        if (pthread_join(t->philo[i].thread, NULL) != 0)
+            exit(0);
+        i++;
+    }
+
 }
 
 void    ft_init_table(char **argv, t_table *t)
