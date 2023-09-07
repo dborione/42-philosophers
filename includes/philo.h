@@ -19,13 +19,6 @@ typedef struct s_node
 	struct s_node	*next;
 }	t_node;
 
-typedef struct s_table {
-    int philo_nbr;
-    int time_to_die;
-    int time_to_sleep;
-    int time_to_eat;
-}   t_table;
-
 typedef struct s_philo {
     int             id;
     int             status;
@@ -33,11 +26,21 @@ typedef struct s_philo {
     struct s_philo  *next;
 }   t_philo;
 
+typedef struct s_table {
+    int philo_nbr;
+    int time_to_die;
+    int time_to_sleep;
+    int time_to_eat;
+    t_philo *philo;
+}   t_table;
+
+
+
 int	ft_atoi(const char *str);
 void    *ft_routine(void *philo);
 void    ft_init_sim(char **argv);
 void    ft_init_table(char **argv, t_table *table);
-void    ft_init_philos(t_table *table, t_philo **philo);
+void    ft_init_philos(t_table *table);
 void    ft_create_philo(int i, t_philo *philo);
 
 #endif
