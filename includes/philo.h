@@ -32,6 +32,7 @@ typedef struct s_table {
     int time_to_sleep;
     int time_to_eat;
     t_philo *philo;
+    pthread_mutex_t *forks;
 }   t_table;
 
 

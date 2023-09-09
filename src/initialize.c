@@ -37,6 +37,9 @@ void    ft_init_table(char **argv, t_table *t)
     t->philo = malloc(sizeof(*t->philo) * t->philo_nbr); //protec
     if (!t->philo)
         exit(6);
+    t->forks = malloc(sizeof(*t->forks) * t->philo_nbr);//protec
+    if (!t->forks)
+        exit(7);
 }
 
 void    ft_init_sim(char **argv)
