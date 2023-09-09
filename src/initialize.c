@@ -30,6 +30,7 @@ void    ft_init_philos(t_table *t)
 
 void    ft_init_table(char **argv, t_table *t)
 {
+    t->start_time = 0;
     t->philo_nbr = ft_atoi(argv[1]); //protec
     t->time_to_die = 0;
     t->time_to_eat = 0;

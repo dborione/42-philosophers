@@ -23,10 +23,10 @@ typedef struct s_philo {
     int             id;
     int             status;
     pthread_t       thread;
-    struct s_philo  *next;
 }   t_philo;
 
 typedef struct s_table {
+    useconds_t  start_time;
     int philo_nbr;
     int time_to_die;
     int time_to_sleep;
@@ -42,6 +42,6 @@ void    *ft_routine(void *philo);
 void    ft_init_sim(char **argv);
 void    ft_init_table(char **argv, t_table *table);
 void    ft_init_philos(t_table *table);
-void    ft_create_philo(int i, t_philo *philo);
+void    *ft_routine(void *philo);
 
 #endif

@@ -15,7 +15,7 @@ CC = gcc
 CFLAGS = -Wall -Wextra -pthread #-Werror
 
 #	Sources
-FILES = main.c utils.c initialize.c \
+FILES = main.c utils.c initialize.c exec.c \
 
 FILES_BONUS = main_bonus.c
 
