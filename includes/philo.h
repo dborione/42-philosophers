@@ -31,7 +31,7 @@ typedef struct s_table {
     int time_to_die;
     int time_to_sleep;
     int time_to_eat;
-    t_philo *philo;
+    t_philo *philos;
     pthread_mutex_t *forks;
 }   t_table;
 

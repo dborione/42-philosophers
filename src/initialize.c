@@ -7,7 +7,7 @@ void    ft_join_threads(t_table *t)
     i = 0;
     while (i < t->philo_nbr)
     {
-        if (pthread_join(t->philo[i].thread, NULL) != 0)
+        if (pthread_join(t->philos[i].thread, NULL) != 0)
             exit(2);
         i++;
     }
@@ -20,9 +20,9 @@ void    ft_init_philos(t_table *t)
     i = 0;
     while (i < t->philo_nbr)
     {
-        t->philo[i].id = i + 1;
-        t->philo[i].status = IDLE;
-        if (pthread_create(&t->philo[i].thread, NULL, &ft_routine, &t->philo[i]) != 0)
+        t->philos[i].id = i + 1;
+        t->philos[i].status = IDLE;
+        if (pthread_create(&t->philos[i].thread, NULL, &ft_routine, &t->philos[i]) != 0)
             exit(3);
         i++;
     }
@@ -35,8 +35,8 @@ void    ft_init_table(char **argv, t_table *t)
     t->time_to_die = 0;
     t->time_to_eat = 0;
     t->time_to_sleep = 0;
-    t->philo = malloc(sizeof(*t->philo) * t->philo_nbr); //protec
-    if (!t->philo)
+    t->philos = malloc(sizeof(*t->philos) * t->philo_nbr); //protec
+    if (!t->philos)
         exit(6);
     t->forks = malloc(sizeof(*t->forks) * t->philo_nbr);//protec
     if (!t->forks)

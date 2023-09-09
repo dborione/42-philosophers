@@ -1,5 +1,11 @@
 #include "../includes/philo.h"
 
+// void    ft_get_start_time()
+// {
+
+    //gettimeofday(, NULL);
+// }
+
 static int	ft_convert(const char *str, int i, int sign, unsigned long res)
 {
 	while (str[i] >= '0' && str[i] <= '9')
