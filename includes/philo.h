@@ -13,6 +13,8 @@
 # define EATING 3
 # define DEAD 4
 
+typedef struct s_table  t_table;
+
 typedef struct s_node
 {
 	pthread_t       t;
@@ -23,6 +25,7 @@ typedef struct s_philo {
     int             id;
     int             status;
     pthread_t       thread;
+    t_table         *table;
 }   t_philo;
 
 typedef struct s_table {

@@ -21,8 +21,10 @@ void    ft_join_threads(t_table *t)
     {
         if (pthread_join(t->philos[i].thread, NULL) != 0)
             exit(2);
+        // free(t->philos[i]);
         i++;
     }
+    
 }
 
 void    ft_init_mutex(t_table *t)
