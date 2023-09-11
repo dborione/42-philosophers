@@ -25,6 +25,31 @@ void    ft_join_threads(t_table *t)
     }
 }
 
+void    ft_init_mutex(t_table *t)
+{
+    int i;
+
+    i = 0;
+    while (i < t->philo_nbr)
+    {
+        pthread_mutex_init(&t->forks[i], NULL);
+        i++;
+    }
+}
+
+void    ft_destroy_mutex(t_table *t)
+{
+    int i;
+
+    i = 0;
+    while (i < t->philo_nbr)
+    {
+        pthread_mutex_destroy(&t->forks[i]);
+        i++;
+    }
+}
+
+
 void    ft_init_philos(t_table *t)
 {
     int i;
@@ -60,6 +85,8 @@ void    ft_init_sim(char **argv)
     t_table t;
 
     ft_init_table(argv, &t);
+    ft_init_mutex(&t);
     ft_init_philos(&t);
     ft_join_threads(&t);
+    ft_destroy_mutex(&t);
 }

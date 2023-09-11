@@ -12,6 +12,11 @@
 
 #include "../includes/philo.h"
 
+void     *ft_eating()
+{
+
+}
+
 void    *ft_routine(void *philo)
 {
    printf("I am philo %d\n", ((t_philo *)philo)->id);
