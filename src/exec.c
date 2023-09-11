@@ -28,10 +28,10 @@
 
 int   ft_is_dead(t_philo *p)
 {
-   //mutex_lock(death)
-   //if time >= time_to_die && meal_nbr == 0
-   //or if 
-      //return (1)
+   // pthread_mutex_lock(&p->table->death);
+   // if time >= time_to_die && meal_nbr == 0
+   // or if 
+   //    return (1)
    // if ((p->t->start_time - ft_get_time) >= p->t->time_to_die)
    //    return (0);
    // return (1);
@@ -71,7 +71,7 @@ void    *ft_routine(void *philo)
    t = p->table;
    t->start_time = ft_get_time();
    if (p->id % 2 != 0)
-      usleep(100);
+      usleep(200);
    //while (!ft_is_dead)
       ft_eat(p);
       ft_sleep(p);
