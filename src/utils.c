@@ -1,10 +1,11 @@
 #include "../includes/philo.h"
 
-// void    ft_get_start_time()
-// {
+void    ft_get_start_time()
+{
+	struct timeval tv;
 
-    //gettimeofday(, NULL);
-// }
+    gettimeofday(&tv, NULL);
+}
 
 static int	ft_convert(const char *str, int i, int sign, unsigned long res)
 {
