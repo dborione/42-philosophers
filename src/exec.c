@@ -53,11 +53,12 @@ void    *ft_routine2(void *table)
 
 void    *ft_routine(void *philo)
 {
-   t_philo *p;
-   int   i;
+   t_philo  *p;
+   t_table  *t;
 
-   i = 0;
    p = ((t_philo *)philo);
-   printf("I am philo %d and i am using fork %d\n", p->id, p->id);
+   t = p->table;
+   printf("I am philo %d and time is %d\n", p->id, t->start_time);
+   
    return (p);
 }

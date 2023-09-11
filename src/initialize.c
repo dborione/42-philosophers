@@ -59,8 +59,13 @@ void    ft_init_philos(t_table *t)
     i = 0;
     while (i < t->philo_nbr)
     {
+        t->philos[i].table = t;
         t->philos[i].id = i + 1;
         t->philos[i].status = IDLE;
+        t->philos[i].forks[0] = &t->forks[i];
+        if (t->philo_nbr == 1)
+            t->philos[i].forks[1] = &t->forks[i];
+        t->philos[i].forks[1] = &t->forks[i + 1];
         if (pthread_create(&t->philos[i].thread, NULL, &ft_routine, &t->philos[i]) != 0)
             exit(3);
         i++;

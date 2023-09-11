@@ -16,6 +16,8 @@ void    ft_get_start_time()
 {
 	struct timeval tv;
 
+	tv.tv_sec = tv.tv_sec * 1000;
+	tv.tv_usec = tv.tv_usec / 1000;
     gettimeofday(&tv, NULL);
 }
 
