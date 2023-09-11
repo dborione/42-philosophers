@@ -32,7 +32,7 @@ void    ft_init_mutex(t_table *t)
 
     i = 0;
     pthread_mutex_init(&t->death, NULL);
-    while (i < t->philo_nbr)
+    while (i < t->philo_nbr - 1)
     {
         pthread_mutex_init(&t->forks[i], NULL);
         i++;

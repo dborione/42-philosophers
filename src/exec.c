@@ -70,6 +70,8 @@ void    *ft_routine(void *philo)
    p = ((t_philo *)philo);
    t = p->table;
    t->start_time = ft_get_time();
+   if (p->id % 2 != 0)
+      usleep(100);
    //while (!ft_is_dead)
       ft_eat(p);
       ft_sleep(p);
