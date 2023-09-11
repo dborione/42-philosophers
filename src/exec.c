@@ -28,28 +28,22 @@
 
 // }
 
-void    *ft_routine2(void *table)
-{
-   t_table  *t;
-   int      i;
-                                      
-   t = ((t_table *)table);
-   i = 0;
-   while (i < t->philo_nbr)
-   {
-      //pthread_mutex_lock(&t->forks[i]);
-      printf("I am philo %d\n", t->philos[i].id);
-     // pthread_mutex_unlock(&t->forks[i]);
-      i++;
-   }
-   return (t);
    //mutex lock : bloque la fork si utilisee ailleurs
    //I use the fork
    //mutex unlock
 //    if ((((t_philo *)philo)->status) == 0)
 //         printf(" idle\n");
-}
+void  *ft_eat(t_philo  *p)
+{
+   pthread_mutex_lock(p->forks[0]);
+   ft_print_msg(0, p->id);
+   pthread_mutex_lock(p->forks[1]);
+   ft_print_msg(0, p->id);
+   ft_print_msg(1, p->id);
+   pthread_mutex_unlock(p->forks[0]);
+   pthread_mutex_unlock(p->forks[1]);
 
+}
 
 void    *ft_routine(void *philo)
 {
@@ -58,7 +52,7 @@ void    *ft_routine(void *philo)
 
    p = ((t_philo *)philo);
    t = p->table;
-   printf("I am philo %d and time is %d\n", p->id, t->start_time);
-   
+   //printf("I am philo %d, i am %s and time is %d\n", p->id, p->status, t->start_time);
+   ft_eat(p);
    return (p);
 }

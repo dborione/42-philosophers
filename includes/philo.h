@@ -23,7 +23,7 @@ typedef struct s_node
 
 typedef struct s_philo {
     int             id;
-    int             status;
+    char            *status;
     pthread_t       thread;
     pthread_mutex_t *forks[2];
     t_table         *table;
@@ -47,5 +47,7 @@ void    ft_init_sim(char **argv);
 void    ft_init_table(char **argv, t_table *table);
 void    ft_init_philos(t_table *table);
 void    *ft_routine(void *philo);
+void    ft_get_start_time(t_table *t);
+void	ft_print_msg(int i, int id);
 
 #endif

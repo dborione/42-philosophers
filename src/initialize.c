@@ -24,7 +24,6 @@ void    ft_join_threads(t_table *t)
         // free(t->philos[i]);
         i++;
     }
-    
 }
 
 void    ft_init_mutex(t_table *t)
@@ -61,7 +60,7 @@ void    ft_init_philos(t_table *t)
     {
         t->philos[i].table = t;
         t->philos[i].id = i + 1;
-        t->philos[i].status = IDLE;
+        t->philos[i].status = "idle";
         t->philos[i].forks[0] = &t->forks[i];
         if (t->philo_nbr == 1)
             t->philos[i].forks[1] = &t->forks[i];
@@ -75,6 +74,7 @@ void    ft_init_philos(t_table *t)
 void    ft_init_table(char **argv, t_table *t)
 {
     t->start_time = 0;
+    //ft_get_start_time(t);
     t->philo_nbr = ft_atoi(argv[1]); //protec
     t->time_to_die = 0;
     t->time_to_eat = 0;

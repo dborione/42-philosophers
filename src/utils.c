@@ -12,13 +12,27 @@
 
 #include "../includes/philo.h"
 
-void    ft_get_start_time()
+void	ft_print_msg(int i, int id)
+{
+	if (i == 0)
+		printf("time_stamp %d has taken a fork\n", id);
+	if (i == 1)
+		printf("time_stamp %d is eating\n", id);
+	if (i == 2)
+		printf("time_stamp %d is sleeping\n", id);
+	if (i == 3)
+		printf("time_stamp %d is thinking\n", id);
+	if (i == 4)
+		printf("time_stamp %d died\n", id);
+
+}
+
+void    ft_get_start_time(t_table *t)
 {
 	struct timeval tv;
 
-	tv.tv_sec = tv.tv_sec * 1000;
-	tv.tv_usec = tv.tv_usec / 1000;
     gettimeofday(&tv, NULL);
+	t->start_time = ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }
 
 static int	ft_convert(const char *str, int i, int sign, unsigned long res)
