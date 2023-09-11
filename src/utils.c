@@ -12,28 +12,52 @@
 
 #include "../includes/philo.h"
 
-void	ft_print_msg(int i, int id)
+void	ft_print_msg(int status, t_philo *p)
 {
-	if (i == 0)
-		printf("time_stamp %d has taken a fork\n", id);
-	if (i == 1)
-		printf("time_stamp %d is eating\n", id);
-	if (i == 2)
-		printf("time_stamp %d is sleeping\n", id);
-	if (i == 3)
-		printf("time_stamp %d is thinking\n", id);
-	if (i == 4)
-		printf("time_stamp %d died\n", id);
+	size_t	time;
 
+	time = ft_get_time() - p->table->start_time;
+	if (status == PICKING_FORK)
+		printf("%zu %d has taken a fork\n", time, p->id);
+	if (status == EATING)
+		printf("%zu %d is eating\n", time, p->id);
+	if (status == SLEEPING)
+		printf("%zu %d is sleeping\n", time, p->id);
+	if (status == THINKING)
+		printf("%zu %d is thinking\n", time, p->id);
+	if (status == DEAD)
+		printf("%zu %d died\n", time, p->id);
 }
 
-void    ft_get_start_time(t_table *t)
+size_t    ft_get_time()
 {
 	struct timeval tv;
 
     gettimeofday(&tv, NULL);
-	t->start_time = ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
+	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 static int	ft_convert(const char *str, int i, int sign, unsigned long res)
 {

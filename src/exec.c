@@ -26,23 +26,40 @@
 //       //philo status = dead
 //       //->end simulation
 
-// }
-
-   //mutex lock : bloque la fork si utilisee ailleurs
-   //I use the fork
-   //mutex unlock
-//    if ((((t_philo *)philo)->status) == 0)
-//         printf(" idle\n");
-void  *ft_eat(t_philo  *p)
+int   ft_is_dead(t_philo *p)
 {
-   pthread_mutex_lock(p->forks[0]);
-   ft_print_msg(0, p->id);
-   pthread_mutex_lock(p->forks[1]);
-   ft_print_msg(0, p->id);
-   ft_print_msg(1, p->id);
-   pthread_mutex_unlock(p->forks[0]);
-   pthread_mutex_unlock(p->forks[1]);
+   //mutex_lock(death)
+   //if time >= time_to_die && meal_nbr == 0
+   //or if 
+      //return (1)
+   // if ((p->t->start_time - ft_get_time) >= p->t->time_to_die)
+   //    return (0);
+   // return (1);
+}
 
+void  ft_think(t_philo *p)
+{
+   ft_print_msg(THINKING, p);
+}
+
+void  ft_sleep(t_philo  *p)
+{
+   ft_print_msg(SLEEPING, p);
+   usleep(p->table->time_to_sleep); //->gettimeofday - starttime
+}
+
+int   ft_eat(t_philo  *p)
+{
+   pthread_mutex_lock(p->left_fork);
+   ft_print_msg(PICKING_FORK, p);
+   pthread_mutex_lock(p->right_fork);
+   ft_print_msg(PICKING_FORK, p);
+   p->meal_nbr++;
+   ft_print_msg(EATING, p);
+   usleep(p->table->time_to_eat);
+   pthread_mutex_unlock(p->left_fork);
+   pthread_mutex_unlock(p->right_fork);
+   return (1);
 }
 
 void    *ft_routine(void *philo)
@@ -52,7 +69,11 @@ void    *ft_routine(void *philo)
 
    p = ((t_philo *)philo);
    t = p->table;
-   //printf("I am philo %d, i am %s and time is %d\n", p->id, p->status, t->start_time);
-   ft_eat(p);
+   t->start_time = ft_get_time();
+   //while (!ft_is_dead)
+      ft_eat(p);
+      ft_sleep(p);
+      ft_think(p);
+   //ft_end_sim
    return (p);
 }

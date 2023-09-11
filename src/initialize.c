@@ -14,7 +14,7 @@
 
 void    ft_join_threads(t_table *t)
 {
-    int i;
+    size_t i;
 
     i = 0;
     while (i < t->philo_nbr)
@@ -28,9 +28,10 @@ void    ft_join_threads(t_table *t)
 
 void    ft_init_mutex(t_table *t)
 {
-    int i;
+    size_t i;
 
     i = 0;
+    pthread_mutex_init(&t->death, NULL);
     while (i < t->philo_nbr)
     {
         pthread_mutex_init(&t->forks[i], NULL);
@@ -40,9 +41,10 @@ void    ft_init_mutex(t_table *t)
 
 void    ft_destroy_mutex(t_table *t)
 {
-    int i;
+    size_t i;
 
     i = 0;
+    pthread_mutex_destroy(&t->death);
     while (i < t->philo_nbr)
     {
         pthread_mutex_destroy(&t->forks[i]);
@@ -53,18 +55,18 @@ void    ft_destroy_mutex(t_table *t)
 
 void    ft_init_philos(t_table *t)
 {
-    int i;
+    size_t i;
 
     i = 0;
     while (i < t->philo_nbr)
     {
+        t->philos[i].meal_nbr = 0;
         t->philos[i].table = t;
         t->philos[i].id = i + 1;
-        t->philos[i].status = "idle";
-        t->philos[i].forks[0] = &t->forks[i];
+        t->philos[i].left_fork = &t->forks[i];
         if (t->philo_nbr == 1)
-            t->philos[i].forks[1] = &t->forks[i];
-        t->philos[i].forks[1] = &t->forks[i + 1];
+           t->philos[i].right_fork = NULL;
+        t->philos[i].right_fork = &t->forks[i + 1];
         if (pthread_create(&t->philos[i].thread, NULL, &ft_routine, &t->philos[i]) != 0)
             exit(3);
         i++;
@@ -74,11 +76,10 @@ void    ft_init_philos(t_table *t)
 void    ft_init_table(char **argv, t_table *t)
 {
     t->start_time = 0;
-    //ft_get_start_time(t);
     t->philo_nbr = ft_atoi(argv[1]); //protec
-    t->time_to_die = 0;
-    t->time_to_eat = 0;
-    t->time_to_sleep = 0;
+    t->time_to_die = ft_atoi(argv[2]);
+    t->time_to_eat = ft_atoi(argv[3]);
+    t->time_to_sleep = ft_atoi(argv[4]);
     t->philos = malloc(sizeof(*t->philos) * t->philo_nbr); //protec
     if (!t->philos)
         exit(6);

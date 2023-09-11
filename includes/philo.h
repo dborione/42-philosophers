@@ -7,11 +7,11 @@
 # include <sys/time.h> //gettimeofday
 # include <stdlib.h> //exit
 
-# define IDLE 0
+# define DEAD 0
 # define SLEEPING 1
 # define THINKING 2
 # define EATING 3
-# define DEAD 4
+# define PICKING_FORK 4
 
 typedef struct s_table  t_table;
 
@@ -25,18 +25,22 @@ typedef struct s_philo {
     int             id;
     char            *status;
     pthread_t       thread;
-    pthread_mutex_t *forks[2];
+    pthread_mutex_t *left_fork;
+    pthread_mutex_t *right_fork;
     t_table         *table;
+    useconds_t  last_meal_time;
+    int meal_nbr;
 }   t_philo;
 
 typedef struct s_table {
-    useconds_t  start_time;
-    int philo_nbr;
-    int time_to_die;
-    int time_to_sleep;
-    int time_to_eat;
-    t_philo *philos;
+    size_t          start_time;
+    size_t          philo_nbr;
+    size_t          time_to_die;
+    size_t          time_to_sleep;
+    size_t          time_to_eat;
     pthread_mutex_t *forks;
+    pthread_mutex_t death;
+    t_philo         *philos;
 }   t_table;
 
 
@@ -47,7 +51,7 @@ void    ft_init_sim(char **argv);
 void    ft_init_table(char **argv, t_table *table);
 void    ft_init_philos(t_table *table);
 void    *ft_routine(void *philo);
-void    ft_get_start_time(t_table *t);
-void	ft_print_msg(int i, int id);
+size_t  ft_get_time();
+void	ft_print_msg(int status, t_philo *p);
 
 #endif
