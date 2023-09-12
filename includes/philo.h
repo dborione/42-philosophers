@@ -25,9 +25,9 @@ typedef struct s_philo {
     int             id;
     char            *status;
     pthread_t       thread;
-    pthread_mutex_t *left_fork;
-    pthread_mutex_t *right_fork;
-    t_table         *table;
+    // pthread_mutex_t *left_fork;
+    // pthread_mutex_t *right_fork;
+    t_table         *t;
     useconds_t  last_meal_time;
     int meal_nbr;
 }   t_philo;
@@ -40,6 +40,7 @@ typedef struct s_table {
     size_t          time_to_eat;
     pthread_mutex_t *forks;
     pthread_mutex_t death;
+    pthread_mutex_t msg;
     t_philo         *philos;
 }   t_table;
 

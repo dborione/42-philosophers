@@ -16,7 +16,7 @@ void	ft_print_msg(int status, t_philo *p)
 {
 	size_t	time;
 
-	time = ft_get_time() - p->table->start_time;
+	time = ft_get_time() - p->t->start_time;
 	if (status == PICKING_FORK)
 		printf("%zu %d has taken a fork\n", time, p->id);
 	if (status == EATING)

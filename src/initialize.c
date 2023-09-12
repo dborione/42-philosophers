@@ -31,8 +31,9 @@ void    ft_init_mutex(t_table *t)
     size_t i;
 
     i = 0;
-    pthread_mutex_init(&t->death, NULL);
-    while (i < t->philo_nbr - 1)
+    pthread_mutex_init(&t->death, NULL); //protec
+    pthread_mutex_init(&t->msg, NULL); //protec
+    while (i < t->philo_nbr)
     {
         pthread_mutex_init(&t->forks[i], NULL);
         i++;
@@ -61,12 +62,12 @@ void    ft_init_philos(t_table *t)
     while (i < t->philo_nbr)
     {
         t->philos[i].meal_nbr = 0;
-        t->philos[i].table = t;
+        t->philos[i].t = t; 
         t->philos[i].id = i + 1;
-        t->philos[i].left_fork = &t->forks[i];
-        if (t->philo_nbr == 1)
-           t->philos[i].right_fork = NULL;
-        t->philos[i].right_fork = &t->forks[i + 1];
+        // t->philos[i].left_fork = &t->forks[i];
+        // if (t->philo_nbr == 1)
+        //    t->philos[i].right_fork = NULL;
+        // t->philos[i].right_fork = &t->forks[i + 1];
         if (pthread_create(&t->philos[i].thread, NULL, &ft_routine, &t->philos[i]) != 0)
             exit(3);
         i++;

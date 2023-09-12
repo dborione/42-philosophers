@@ -45,20 +45,24 @@ void  ft_think(t_philo *p)
 void  ft_sleep(t_philo  *p)
 {
    ft_print_msg(SLEEPING, p);
-   usleep(p->table->time_to_sleep); //->gettimeofday - starttime
+   usleep(p->t->time_to_sleep); //->gettimeofday - starttime
 }
 
 int   ft_eat(t_philo  *p)
 {
-   pthread_mutex_lock(p->left_fork);
+   // pthread_mutex_lock(p->left_fork);
+   pthread_mutex_lock(&(p->t->forks[p->id - 1]));
    ft_print_msg(PICKING_FORK, p);
-   pthread_mutex_lock(p->right_fork);
+   // pthread_mutex_lock(p->right_fork);
+   pthread_mutex_lock(&(p->t->forks[p->id]));
    ft_print_msg(PICKING_FORK, p);
    p->meal_nbr++;
    ft_print_msg(EATING, p);
-   usleep(p->table->time_to_eat);
-   pthread_mutex_unlock(p->left_fork);
-   pthread_mutex_unlock(p->right_fork);
+   usleep(p->t->time_to_eat);
+   // pthread_mutex_unlock(p->left_fork);
+   // pthread_mutex_unlock(p->right_fork);
+   pthread_mutex_unlock(&(p->t->forks[p->id - 1]));
+   pthread_mutex_unlock(&(p->t->forks[p->id]));
    return (1);
 }
 
@@ -68,9 +72,9 @@ void    *ft_routine(void *philo)
    t_table  *t;
 
    p = ((t_philo *)philo);
-   t = p->table;
+   t = p->t;
    t->start_time = ft_get_time();
-   if (p->id % 2 != 0)
+   if (p->id % 2 == 0)
       usleep(200);
    //while (!ft_is_dead)
       ft_eat(p);
