@@ -14,7 +14,8 @@
 
 int main(int argc, char **argv)
 {
-    // ft_check_args
+    if (!ft_check_args(argc, argv))
+        exit (2);
     ft_init_sim(argv);
     // ft_get_start_time
     // ft_init_mutex

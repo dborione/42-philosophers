@@ -46,13 +46,13 @@ void    ft_destroy_mutex(t_table *t)
 
     i = 0;
     pthread_mutex_destroy(&t->death);
+    pthread_mutex_destroy(&t->msg);
     while (i < t->philo_nbr)
     {
         pthread_mutex_destroy(&t->forks[i]);
         i++;
     }
 }
-
 
 void    ft_init_philos(t_table *t)
 {
@@ -77,6 +77,7 @@ void    ft_init_table(char **argv, t_table *t)
     t->time_to_die = ft_atoi(argv[2]);
     t->time_to_eat = ft_atoi(argv[3]);
     t->time_to_sleep = ft_atoi(argv[4]);
+    t->time_philo_must_eat = ft_atoi(argv[5]);
     t->philos = malloc(sizeof(*t->philos) * t->philo_nbr); //protec
     if (!t->philos)
         exit(6);
@@ -92,6 +93,5 @@ void    ft_init_sim(char **argv)
     ft_init_table(argv, &t);
     ft_init_mutex(&t);
     ft_init_philos(&t);
-    ft_join_threads(&t);
-    ft_destroy_mutex(&t);
+
 }

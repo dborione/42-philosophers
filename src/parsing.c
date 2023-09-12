@@ -10,4 +10,35 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../includes/philo.h"
 
+int	ft_isdigit(int c)
+{
+	if (c >= '0' && c <= '9')
+		return (1);
+	else
+		return (0);
+}
+
+int ft_check_args(int argc, char **argv)
+{
+    int i;
+    int j;
+
+    i = 1;
+    j = 0;
+    if (argc < 4)
+        return (0);
+    while (argv[i])
+    {
+        while (argv[i][j])
+        {
+            if (!ft_isdigit(argv[i][j]))
+                return (0);
+            j++;
+        }
+        j = 0;
+        i++;
+    }
+    return (1);
+}

@@ -15,19 +15,12 @@
 
 typedef struct s_table  t_table;
 
-typedef struct s_node
-{
-	pthread_t       t;
-	struct s_node	*next;
-}	t_node;
-
 typedef struct s_philo {
     int             id;
-    char            *status;
     pthread_t       thread;
+    size_t      last_meal_time;
+    size_t             meal_nbr;
     t_table         *t;
-    useconds_t  last_meal_time;
-    int meal_nbr;
 }   t_philo;
 
 typedef struct s_table {
@@ -36,14 +29,14 @@ typedef struct s_table {
     size_t          time_to_die;
     size_t          time_to_sleep;
     size_t          time_to_eat;
+    size_t          time_philo_must_eat;
     pthread_mutex_t *forks;
     pthread_mutex_t death;
     pthread_mutex_t msg;
     t_philo         *philos;
 }   t_table;
 
-
-
+int ft_check_args(int argc, char **argv);
 int	ft_atoi(const char *str);
 void    *ft_routine(void *philo);
 void    ft_init_sim(char **argv);
@@ -52,5 +45,6 @@ void    ft_init_philos(t_table *table);
 void    *ft_routine(void *philo);
 size_t  ft_get_time();
 void	ft_print_msg(int status, t_philo *p);
-
+void    ft_join_threads(t_table *t);
+void    ft_destroy_mutex(t_table *t);
 #endif

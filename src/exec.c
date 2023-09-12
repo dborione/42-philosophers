@@ -12,29 +12,18 @@
 
 #include "../includes/philo.h"
 
-// void     *ft_eating()
-// {
-//    //if forks are unlocked
-//       //philo takes the forks
-//       //time = time + time_to_eat
-//       //fork is unlocked
-//    //else philo thinks
-//       //time = time + time to think
-//    //else philo sleeps
-//       //time = time + time to sleep
-//    //if time >= time_to_die
-//       //philo status = dead
-//       //->end simulation
-
 int   ft_is_dead(t_philo *p)
 {
-   // pthread_mutex_lock(&p->table->death);
-   // if time >= time_to_die && meal_nbr == 0
-   // or if 
-   //    return (1)
-   // if ((p->t->start_time - ft_get_time) >= p->t->time_to_die)
-   //    return (0);
-   // return (1);
+   pthread_mutex_lock(&p->t->death);
+   // if ((p->last_meal_time + p->t->start_time) >= p->t->time_to_die)
+   //    return (1);
+   if (p->meal_nbr >= p->t->time_philo_must_eat)
+   {
+      pthread_mutex_unlock(&p->t->death);
+      return (1);
+   }
+   pthread_mutex_unlock(&p->t->death);
+   return (0);
 }
 
 void  ft_think(t_philo *p)
@@ -52,11 +41,13 @@ int   ft_eat(t_philo  *p)
 {
    pthread_mutex_lock(&(p->t->forks[p->id - 1]));
    ft_print_msg(PICKING_FORK, p);
+   // exception if only one philo
    pthread_mutex_lock(&(p->t->forks[p->id]));
    ft_print_msg(PICKING_FORK, p);
    p->meal_nbr++;
    ft_print_msg(EATING, p);
    usleep(p->t->time_to_eat);
+   p->last_meal_time = ft_get_time();
    pthread_mutex_unlock(&(p->t->forks[p->id - 1]));
    pthread_mutex_unlock(&(p->t->forks[p->id]));
    return (1);
@@ -70,12 +61,15 @@ void    *ft_routine(void *philo)
    p = ((t_philo *)philo);
    t = p->t;
    t->start_time = ft_get_time();
-   if (p->id % 2 == 0)
+   if (p->id % 2 != 0)
       usleep(200);
-   //while (!ft_is_dead)
+   while (!ft_is_dead(p))
+   {
       ft_eat(p);
       ft_sleep(p);
       ft_think(p);
-   //ft_end_sim
+   }
+   ft_join_threads(t);
+   ft_destroy_mutex(t);
    return (p);
 }
