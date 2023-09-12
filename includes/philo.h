@@ -19,6 +19,7 @@ typedef struct s_philo {
     int             id;
     pthread_t       thread;
     size_t      last_meal_time;
+    pthread_mutex_t meal_mutex;
     size_t             meal_nbr;
     t_table         *t;
 }   t_philo;
@@ -50,5 +51,7 @@ void    ft_destroy_mutex(t_table *t);
 void    ft_init_table(char **argv, t_table *t);
 void    ft_init_philos(t_table *t);
 void    ft_init_mutex(t_table *t);
+void    ft_destroy_mutex(t_table *t);
+void	ft_end_sim(t_philo * p);
 
 #endif

@@ -15,42 +15,60 @@
 int   ft_is_dead(t_philo *p)
 {
    pthread_mutex_lock(&p->t->death);
-   // if ((p->last_meal_time + p->t->start_time) >= p->t->time_to_die)
+   // if (p->last_meal_time + p->t->start_time > p->t->time_to_die)
    //    return (1);
    if (p->meal_nbr >= p->t->time_philo_must_eat)
    {
       pthread_mutex_unlock(&p->t->death);
       return (1);
    }
+   //usleep(100);
    pthread_mutex_unlock(&p->t->death);
    return (0);
 }
 
-void  ft_think(t_philo *p)
+int  ft_think(t_philo *p)
 {
-   ft_print_msg(THINKING, p);
+   while (!ft_is_dead(p))
+   {
+      ft_print_msg(THINKING, p);
+      return (1);
+   }
+   return (0);
 }
 
-void  ft_sleep(t_philo  *p)
+int ft_sleep(t_philo  *p)
 {
-   ft_print_msg(SLEEPING, p);
-   usleep(p->t->time_to_sleep); //->gettimeofday - starttime
+   while (!ft_is_dead(p))
+   {
+      ft_print_msg(SLEEPING, p);
+      usleep(p->t->time_to_sleep); //->gettimeofday - starttime
+      return (1);
+   }
+   return (0);
 }
 
 int   ft_eat(t_philo  *p)
 {
-   pthread_mutex_lock(&(p->t->forks[p->id - 1]));
-   ft_print_msg(PICKING_FORK, p);
-   // exception if only one philo
-   pthread_mutex_lock(&(p->t->forks[p->id]));
-   ft_print_msg(PICKING_FORK, p);
-   p->meal_nbr++;
-   ft_print_msg(EATING, p);
-   usleep(p->t->time_to_eat);
-   p->last_meal_time = ft_get_time();
-   pthread_mutex_unlock(&(p->t->forks[p->id - 1]));
-   pthread_mutex_unlock(&(p->t->forks[p->id]));
-   return (1);
+   while (!ft_is_dead(p))
+   {
+      pthread_mutex_lock(&(p->t->forks[p->id - 1]));
+      ft_print_msg(PICKING_FORK, p);
+      // exception if only one philo
+      pthread_mutex_lock(&(p->t->forks[p->id]));
+      pthread_mutex_lock(&(p->meal_mutex));
+      ft_print_msg(PICKING_FORK, p);
+      p->meal_nbr++;
+      ft_print_msg(EATING, p);
+      //ft_print_msg(6, p);
+      usleep(p->t->time_to_eat);
+      p->last_meal_time = ft_get_time();
+      pthread_mutex_unlock(&(p->t->forks[p->id - 1]));
+      pthread_mutex_unlock(&(p->t->forks[p->id]));
+      pthread_mutex_unlock(&(p->meal_mutex));
+      return (1);
+   }
+   return(0);
 }
 
 void    *ft_routine(void *philo)
@@ -60,16 +78,24 @@ void    *ft_routine(void *philo)
 
    p = ((t_philo *)philo);
    t = p->t;
-   t->start_time = ft_get_time();
-   if (p->id % 2 != 0)
+   if ((p->id % 2) == 0)
       usleep(200);
-   while (!ft_is_dead(p))
+   if(!ft_eat(p))
    {
-      ft_eat(p);
-      ft_sleep(p);
-      ft_think(p);
+      ft_print_msg(DEAD, p);
+      return (p);
+   } 
+   if (!ft_sleep(p))
+   {
+      ft_print_msg(DEAD, p);
+      return (p);
    }
-   ft_join_threads(t);
-   ft_destroy_mutex(t);
+   if (!ft_think(p))
+   {
+      ft_print_msg(DEAD, p);
+      return (p);
+   }
+   //ft_print_msg(DEAD, p);
+   // ft_end_sim(p);
    return (p);
 }

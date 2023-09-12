@@ -20,10 +20,13 @@ void    ft_join_threads(t_table *t)
     while (i < t->philo_nbr)
     {
         if (pthread_join(t->philos[i].thread, NULL) != 0)
-            exit(2);
+            exit(20);
         // free(t->philos[i]);
         i++;
     }
+    //free(&t->philos);
+    // free(&t->death);
+    // free(&t->msg);
 }
 
 void    ft_init_mutex(t_table *t)
@@ -61,7 +64,8 @@ void    ft_init_philos(t_table *t)
     i = 0;
     while (i < t->philo_nbr)
     {
-        t->philos[i].meal_nbr = 0;
+        pthread_mutex_init(&t->philos[i].meal_mutex, NULL); //protec
+        t->philos[i].meal_nbr = 0; 
         t->philos[i].t = t; 
         t->philos[i].id = i + 1;
         if (pthread_create(&t->philos[i].thread, NULL, &ft_routine, &t->philos[i]) != 0)
@@ -72,7 +76,7 @@ void    ft_init_philos(t_table *t)
 
 void    ft_init_table(char **argv, t_table *t)
 {
-    t->start_time = 0;
+    t->start_time = ft_get_time();
     t->philo_nbr = ft_atoi(argv[1]); //protec
     t->time_to_die = ft_atoi(argv[2]);
     t->time_to_eat = ft_atoi(argv[3]);

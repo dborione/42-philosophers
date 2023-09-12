@@ -12,12 +12,21 @@
 
 #include "../includes/philo.h"
 
+void	ft_end_sim(t_philo * p)
+{
+   	ft_destroy_mutex(p->t);
+	ft_join_threads(p->t);
+	exit(0);
+}
+
 void	ft_print_msg(int status, t_philo *p)
 {
 	size_t	time;
 
 	time = ft_get_time() - p->t->start_time;
    	pthread_mutex_lock(&(p->t->msg));
+	if (status == 6)
+		printf("%zu nbr of meals for %d: %zu\n", time, p->id, p->meal_nbr);
 	if (status == PICKING_FORK)
 		printf("%zu %d has taken a fork\n", time, p->id);
 	if (status == EATING)
