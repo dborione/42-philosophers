@@ -64,10 +64,6 @@ void    ft_init_philos(t_table *t)
         t->philos[i].meal_nbr = 0;
         t->philos[i].t = t; 
         t->philos[i].id = i + 1;
-        // t->philos[i].left_fork = &t->forks[i];
-        // if (t->philo_nbr == 1)
-        //    t->philos[i].right_fork = NULL;
-        // t->philos[i].right_fork = &t->forks[i + 1];
         if (pthread_create(&t->philos[i].thread, NULL, &ft_routine, &t->philos[i]) != 0)
             exit(3);
         i++;

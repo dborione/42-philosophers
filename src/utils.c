@@ -17,6 +17,7 @@ void	ft_print_msg(int status, t_philo *p)
 	size_t	time;
 
 	time = ft_get_time() - p->t->start_time;
+   	pthread_mutex_lock(&(p->t->msg));
 	if (status == PICKING_FORK)
 		printf("%zu %d has taken a fork\n", time, p->id);
 	if (status == EATING)
@@ -27,6 +28,7 @@ void	ft_print_msg(int status, t_philo *p)
 		printf("%zu %d is thinking\n", time, p->id);
 	if (status == DEAD)
 		printf("%zu %d died\n", time, p->id);
+   	pthread_mutex_unlock(&(p->t->msg));
 }
 
 size_t    ft_get_time()

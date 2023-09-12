@@ -50,17 +50,13 @@ void  ft_sleep(t_philo  *p)
 
 int   ft_eat(t_philo  *p)
 {
-   // pthread_mutex_lock(p->left_fork);
    pthread_mutex_lock(&(p->t->forks[p->id - 1]));
    ft_print_msg(PICKING_FORK, p);
-   // pthread_mutex_lock(p->right_fork);
    pthread_mutex_lock(&(p->t->forks[p->id]));
    ft_print_msg(PICKING_FORK, p);
    p->meal_nbr++;
    ft_print_msg(EATING, p);
    usleep(p->t->time_to_eat);
-   // pthread_mutex_unlock(p->left_fork);
-   // pthread_mutex_unlock(p->right_fork);
    pthread_mutex_unlock(&(p->t->forks[p->id - 1]));
    pthread_mutex_unlock(&(p->t->forks[p->id]));
    return (1);
