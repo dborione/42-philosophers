@@ -25,20 +25,15 @@ int ft_check_args(int argc, char **argv)
     int i;
     int j;
 
-    i = 1;
-    j = 0;
+    i = 0;
+    j = -1;
     if (argc < 4)
         return (0);
-    while (argv[i])
+    while (argv[++i])
     {
-        while (argv[i][j])
-        {
-            if (!ft_isdigit(argv[i][j]))
-                return (0);
-            j++;
-        }
-        j = 0;
-        i++;
+        while (!ft_isdigit(argv[i][++j]))
+            return (0);
+        j = -1;
     }
     return (1);
 }

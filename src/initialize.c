@@ -85,13 +85,3 @@ void    ft_init_table(char **argv, t_table *t)
     if (!t->forks)
         exit(7);
 }
-
-void    ft_init_sim(char **argv)
-{
-    t_table t;
-
-    ft_init_table(argv, &t);
-    ft_init_mutex(&t);
-    ft_init_philos(&t);
-
-}

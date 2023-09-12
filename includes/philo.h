@@ -47,4 +47,8 @@ size_t  ft_get_time();
 void	ft_print_msg(int status, t_philo *p);
 void    ft_join_threads(t_table *t);
 void    ft_destroy_mutex(t_table *t);
+void    ft_init_table(char **argv, t_table *t);
+void    ft_init_philos(t_table *t);
+void    ft_init_mutex(t_table *t);
+
 #endif
