@@ -16,18 +16,20 @@ int   ft_is_dead(t_philo *p)
 {
     size_t time;
 
-    time = ft_get_time();
-   pthread_mutex_lock(&p->t->death);
-//    if (time - p->last_meal_time >= p->t->time_to_die)
-//       return (1);
-   if (p->meal_nbr >= p->t->time_philo_must_eat)
-   {
-      pthread_mutex_unlock(&p->t->death);
-      return (1);
-   }
-   //usleep(100);
-   pthread_mutex_unlock(&p->t->death);
-   return (0);
+    time = ft_get_time_mil();
+    pthread_mutex_lock(&p->t->death);
+    if (time - p->last_meal_time > p->t->time_to_die)
+    {
+        pthread_mutex_unlock(&p->t->death);
+        return (1);
+    }
+    // if (p->meal_nbr >= p->t->time_philo_must_eat)
+    // {
+    //     pthread_mutex_unlock(&p->t->death);
+    //     return (1);
+    // }
+    pthread_mutex_unlock(&p->t->death);
+    return (0);
 }
 
 int  ft_think(t_philo *p)
@@ -65,7 +67,7 @@ int   ft_eat(t_philo  *p)
       ft_print_msg(EATING, p);
       //ft_print_msg(6, p);
       usleep(p->t->time_to_eat);
-      p->last_meal_time = ft_get_time();
+      p->last_meal_time = ft_get_time_mil();
       pthread_mutex_unlock(&(p->t->forks[p->id - 1]));
       pthread_mutex_unlock(&(p->t->forks[p->id]));
       pthread_mutex_unlock(&(p->meal_mutex));
@@ -85,8 +87,8 @@ void    *ft_routine(void *philo)
    t_philo  *p;
 
    p = philo;
-   if ((p->id % 2) == 0)
-      usleep(200);
+   if ((p->id % 2) != 0)
+        usleep(200);
    if(!ft_eat(p))
         return (ft_print_dead(p));
    if (!ft_sleep(p))

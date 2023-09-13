@@ -68,6 +68,7 @@ void    ft_init_philos(t_table *t)
         t->philos[i].meal_nbr = 0; 
         t->philos[i].t = t; 
         t->philos[i].id = i + 1;
+        t->philos[i].last_meal_time = t->start_time;
         if (pthread_create(&t->philos[i].thread, NULL, &ft_routine, &t->philos[i]) != 0)
             exit(3);
         i++;
@@ -76,7 +77,7 @@ void    ft_init_philos(t_table *t)
 
 void    ft_init_table(char **argv, t_table *t)
 {
-    t->start_time = ft_get_time();
+    t->start_time = ft_get_time_mil();
     t->philo_nbr = ft_atoi(argv[1]); //protec
     t->time_to_die = ft_atoi(argv[2]);
     t->time_to_eat = ft_atoi(argv[3]);

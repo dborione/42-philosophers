@@ -23,7 +23,7 @@ void	ft_print_msg(int status, t_philo *p)
 {
 	size_t	time;
 
-	time = ft_get_time() - p->t->start_time;
+	time = ft_get_time_mil() - p->t->start_time;
    	pthread_mutex_lock(&(p->t->msg));
 	if (status == 6)
 		printf("%zu nbr of meals for %d: %zu\n", time, p->id, p->meal_nbr);
@@ -40,7 +40,7 @@ void	ft_print_msg(int status, t_philo *p)
    	pthread_mutex_unlock(&(p->t->msg));
 }
 
-size_t    ft_get_time()
+size_t    ft_get_time_mil(void)
 {
 	struct timeval tv;
 

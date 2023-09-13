@@ -44,7 +44,7 @@ void    ft_init_sim(char **argv);
 void    ft_init_table(char **argv, t_table *table);
 void    ft_init_philos(t_table *table);
 void    *ft_routine(void *philo);
-size_t  ft_get_time();
+size_t  ft_get_time_mil();
 void	ft_print_msg(int status, t_philo *p);
 void    ft_join_threads(t_table *t);
 void    ft_destroy_mutex(t_table *t);
