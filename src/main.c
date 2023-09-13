@@ -12,23 +12,12 @@
 
 #include "../includes/philo.h"
 
-void    ft_error(int error)
-{
-    if (error == 1)
-    {
-        printf("args must be:");
-        printf(" number_of_philosophers time_to_die time_to_eat"); 
-        printf("time_to_sleep [number_of_times_each_philosopher_must_eat]\n");
-        exit(error);
-    }
-}
-
 int main(int argc, char **argv)
 {
     t_table t;
 
     if (!ft_check_args(argc, argv))
-        ft_error(1);
+        ft_parsing_error(1);
     ft_init_table(argv, &t);
     ft_init_mutex(&t);
     ft_init_philos(&t);

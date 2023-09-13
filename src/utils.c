@@ -70,13 +70,13 @@ size_t    ft_get_time()
 
 
 
-static int	ft_convert(const char *str, int i, int sign, unsigned long res)
+static int	ft_atoi_convert(const char *str, int i, int sign, unsigned long res)
 {
 	while (str[i] >= '0' && str[i] <= '9')
 	{
-		if (res > 9223372036854775807 && sign == -1)
+		if (res > __LONG_MAX__ && sign == -1)
 			return (0);
-		else if (res > 9223372036854775807)
+		else if (res > __LONG_MAX__)
 			return (-1);
 		res = res * 10 + (str[i++] - '0');
 	}
@@ -106,5 +106,5 @@ int	ft_atoi(const char *str)
 	}
 	if (count > 1)
 		return (0);
-	return (ft_convert(str, i, sign, res));
+	return (ft_atoi_convert(str, i, sign, res));
 }

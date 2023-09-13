@@ -53,5 +53,6 @@ void    ft_init_philos(t_table *t);
 void    ft_init_mutex(t_table *t);
 void    ft_destroy_mutex(t_table *t);
 void	ft_end_sim(t_philo * p);
+void    ft_parsing_error(int error);
 
 #endif

@@ -14,9 +14,12 @@
 
 int   ft_is_dead(t_philo *p)
 {
+    size_t time;
+
+    time = ft_get_time();
    pthread_mutex_lock(&p->t->death);
-   // if (p->last_meal_time + p->t->start_time > p->t->time_to_die)
-   //    return (1);
+//    if (time - p->last_meal_time >= p->t->time_to_die)
+//       return (1);
    if (p->meal_nbr >= p->t->time_philo_must_eat)
    {
       pthread_mutex_unlock(&p->t->death);
@@ -71,30 +74,25 @@ int   ft_eat(t_philo  *p)
    return(0);
 }
 
+t_philo   *ft_print_dead(t_philo *p)
+{
+    ft_print_msg(DEAD, p);
+    return (p); 
+}
+
 void    *ft_routine(void *philo)
 {
    t_philo  *p;
-   t_table  *t;
 
-   p = ((t_philo *)philo);
-   t = p->t;
+   p = philo;
    if ((p->id % 2) == 0)
       usleep(200);
    if(!ft_eat(p))
-   {
-      ft_print_msg(DEAD, p);
-      return (p);
-   } 
+        return (ft_print_dead(p));
    if (!ft_sleep(p))
-   {
-      ft_print_msg(DEAD, p);
-      return (p);
-   }
+        return (ft_print_dead(p));
    if (!ft_think(p))
-   {
-      ft_print_msg(DEAD, p);
-      return (p);
-   }
+        return (ft_print_dead(p));
    //ft_print_msg(DEAD, p);
    // ft_end_sim(p);
    return (p);
