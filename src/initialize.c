@@ -12,6 +12,16 @@
 
 #include "../includes/philo.h"
 
+void    ft_free_and_exit(t_table *t)
+{
+    if (t->philos)
+        free(t->philos);
+    if (t->forks)
+        free(t->forks);
+    //printf error message
+    exit(20);
+}
+
 void    ft_join_threads(t_table *t)
 {
     size_t i;
@@ -19,14 +29,11 @@ void    ft_join_threads(t_table *t)
     i = 0;
     while (i < t->philo_nbr)
     {
-        if (pthread_join(t->philos[i].thread, NULL) != 0)
-            exit(20);
-        // free(t->philos[i]);
+        if (pthread_join(t->philos[i].thread, NULL) != 0) //free mallocs
+            ft_free_and_exit(t);
         i++;
     }
-    //free(&t->philos);
-    // free(&t->death);
-    // free(&t->msg);
+    ft_free_and_exit(t);
 }
 
 void    ft_init_mutex(t_table *t)
@@ -65,7 +72,6 @@ void    ft_init_philos(t_table *t)
     i = 0;
     while (i < t->philo_nbr)
     {
-        pthread_mutex_init(&t->philos[i].meal_mutex, NULL); //protec
         t->philos[i].last_meal_time = t->start_time;
         t->philos[i].meal_nbr = 0; 
         t->philos[i].t = t; 
@@ -89,10 +95,11 @@ void    ft_init_table(char **argv, t_table *t)
     t->time_to_eat = ft_atoi(argv[3]);
     t->time_to_sleep = ft_atoi(argv[4]);
     t->time_philo_must_eat = ft_atoi(argv[5]);
+    t->total_meals_nbr = 0;
     t->philos = malloc(sizeof(*t->philos) * t->philo_nbr); //protec
     if (!t->philos)
-        exit(6);
+        ft_free_and_exit(t);
     t->forks = malloc(sizeof(*t->forks) * t->philo_nbr);//protec
     if (!t->forks)
-        exit(7);
+        ft_free_and_exit(t);
 }

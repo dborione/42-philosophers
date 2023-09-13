@@ -12,22 +12,30 @@
 
 #include "../includes/philo.h"
 
+t_philo   *ft_print_dead(t_philo *p)
+{
+    ft_print_msg(DEAD, p);
+    return (p); 
+}
+
 int   ft_is_dead(t_philo *p)
 {
-    size_t time;
+    size_t current_time;
 
-    time = ft_get_time_mil();
+    current_time = ft_get_time_mil();
     pthread_mutex_lock(&p->t->death);
-    if (time - p->last_meal_time > p->t->time_to_die)
+    if (current_time - p->last_meal_time > p->t->time_to_die)
     {
+        ft_print_dead(p);
         pthread_mutex_unlock(&p->t->death);
         return (1);
     }
-    // if (p->meal_nbr >= p->t->time_philo_must_eat)
-    // {
-    //     pthread_mutex_unlock(&p->t->death);
-    //     return (1);
-    // }
+    if (p->meal_nbr >= p->t->time_philo_must_eat)
+    {
+        ft_print_dead(p);
+        pthread_mutex_unlock(&p->t->death);
+        return (1);
+    }
     pthread_mutex_unlock(&p->t->death);
     return (0);
 }
@@ -46,12 +54,14 @@ void    ft_sleep(t_philo  *p)
 void    ft_eat(t_philo  *p)
 {
     pthread_mutex_lock(p->left_fork);
+    //DEAD VERIF
     ft_print_msg(PICKING_FORK, p);
     // exception if only one philo
     pthread_mutex_lock(p->right_fork);
     // pthread_mutex_lock(&(p->meal_mutex));
     ft_print_msg(PICKING_FORK, p);
-    p->meal_nbr++;
+    p->t->total_meals_nbr++;
+    //DEAD VERIF
     ft_print_msg(EATING, p);
     //ft_print_msg(6, p);
     p->last_meal_time = ft_get_time_mil();
@@ -60,12 +70,6 @@ void    ft_eat(t_philo  *p)
     pthread_mutex_unlock(p->right_fork);
    // pthread_mutex_unlock(&(p->meal_mutex));
 }
-
-t_philo   *ft_print_dead(t_philo *p)
-{
-    ft_print_msg(DEAD, p);
-    return (p); 
-}               
 
 void    *ft_routine(void *philo)
 {
@@ -77,12 +81,11 @@ void    *ft_routine(void *philo)
     while(!ft_is_dead(p))
     {
         ft_eat(p);
-        if (!ft_is_dead(p))
-            return (ft_print_dead(p));
+        if (ft_is_dead(p))
+            ft_join_threads(p->t);
         ft_sleep(p);
         ft_think(p);
     }
-    //ft_print_msg(DEAD, p);
-    // ft_end_sim(p);
+    ft_is_dead(p);
     return (p);
 }

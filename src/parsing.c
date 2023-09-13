@@ -17,7 +17,7 @@ void    ft_parsing_error(int error)
     if (error == 1)
     {
         printf("args must be:");
-        printf(" number_of_philosophers time_to_die time_to_eat"); 
+        printf(" number_of_philosophers time_to_die time_to_eat "); 
         printf("time_to_sleep [number_of_times_each_philosopher_must_eat]\n");
         exit(error);
     }
