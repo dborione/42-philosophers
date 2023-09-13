@@ -41,6 +41,7 @@ void    ft_init_mutex(t_table *t)
         pthread_mutex_init(&t->forks[i], NULL);
         i++;
     }
+
 }
 
 void    ft_destroy_mutex(t_table *t)
@@ -65,10 +66,15 @@ void    ft_init_philos(t_table *t)
     while (i < t->philo_nbr)
     {
         pthread_mutex_init(&t->philos[i].meal_mutex, NULL); //protec
+        t->philos[i].last_meal_time = t->start_time;
         t->philos[i].meal_nbr = 0; 
         t->philos[i].t = t; 
         t->philos[i].id = i + 1;
-        t->philos[i].last_meal_time = t->start_time;
+        t->philos[i].left_fork = &(t->forks[i]);
+        if (i == 0)
+            t->philos[i].right_fork = &(t->forks[t->philo_nbr - 1]);
+        else
+            t->philos[i].right_fork = t->philos[i - 1].left_fork;
         if (pthread_create(&t->philos[i].thread, NULL, &ft_routine, &t->philos[i]) != 0)
             exit(3);
         i++;

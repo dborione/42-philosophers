@@ -16,11 +16,14 @@
 typedef struct s_table  t_table;
 
 typedef struct s_philo {
-    int             id;
+    size_t             id;
     pthread_t       thread;
     size_t      last_meal_time;
     pthread_mutex_t meal_mutex;
+    pthread_mutex_t *left_fork;
+    pthread_mutex_t *right_fork;
     size_t             meal_nbr;
+
     t_table         *t;
 }   t_philo;
 

@@ -26,17 +26,17 @@ void	ft_print_msg(int status, t_philo *p)
 	time = ft_get_time_mil() - p->t->start_time;
    	pthread_mutex_lock(&(p->t->msg));
 	if (status == 6)
-		printf("%zu nbr of meals for %d: %zu\n", time, p->id, p->meal_nbr);
+		printf("%zu nbr of meals for %zu: %zu\n", time, p->id, p->meal_nbr);
 	if (status == PICKING_FORK)
-		printf("%zu %d has taken a fork\n", time, p->id);
+		printf("%zu %zu has taken a fork\n", time, p->id);
 	if (status == EATING)
-		printf("%zu %d is eating\n", time, p->id);
+		printf("%zu %zu is eating\n", time, p->id);
 	if (status == SLEEPING)
-		printf("%zu %d is sleeping\n", time, p->id);
+		printf("%zu %zu is sleeping\n", time, p->id);
 	if (status == THINKING)
-		printf("%zu %d is thinking\n", time, p->id);
+		printf("%zu %zu is thinking\n", time, p->id);
 	if (status == DEAD)
-		printf("%zu %d died\n", time, p->id);
+		printf("%zu %zu died\n", time, p->id);
    	pthread_mutex_unlock(&(p->t->msg));
 }
 
