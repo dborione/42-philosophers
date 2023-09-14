@@ -12,84 +12,34 @@
 
 #include "../includes/philo.h"
 
-void    ft_free_and_exit(t_table *t)
-{
-    if (t->philos)
-        free(t->philos);
-    if (t->forks)
-        free(t->forks);
-    //printf error message
-    exit(20);
-}
-
-void    ft_join_threads(t_table *t)
-{
-    size_t i;
-
-    i = 0;
-    while (i < t->philo_nbr)
-    {
-        if (pthread_join(t->philos[i].thread, NULL) != 0) //free mallocs
-            ft_free_and_exit(t);
-        i++;
-    }
-    ft_free_and_exit(t);
-}
-
-void    ft_init_mutex(t_table *t)
-{
-    size_t i;
-
-    i = 0;
-    pthread_mutex_init(&t->death, NULL); //protec
-    pthread_mutex_init(&t->msg, NULL); //protec
-    while (i < t->philo_nbr)
-    {
-        pthread_mutex_init(&t->forks[i], NULL);
-        i++;
-    }
-
-}
-
-void    ft_destroy_mutex(t_table *t)
-{
-    size_t i;
-
-    i = 0;
-    pthread_mutex_destroy(&t->death);
-    pthread_mutex_destroy(&t->msg);
-    while (i < t->philo_nbr)
-    {
-        pthread_mutex_destroy(&t->forks[i]);
-        i++;
-    }
-}
-
 void    ft_init_philos(t_table *t)
 {
     size_t i;
 
     i = 0;
+    t->start_time = ft_get_time_mil();
+    pthread_mutex_init(&t->death, NULL); //protec
+    pthread_mutex_init(&t->msg, NULL); //protec
     while (i < t->philo_nbr)
     {
         t->philos[i].last_meal_time = t->start_time;
-        t->philos[i].meal_nbr = 0; 
-        t->philos[i].t = t; 
+       // t->philos[i].meal_nbr = 0; 
         t->philos[i].id = i + 1;
-        t->philos[i].left_fork = &(t->forks[i]);
+        t->philos[i].t = t;
+        t->philos[i].left_fork = &t->forks[i];
         if (i == 0)
-            t->philos[i].right_fork = &(t->forks[t->philo_nbr - 1]);
+            t->philos[i].right_fork = &t->forks[t->philo_nbr - 1];
         else
-            t->philos[i].right_fork = t->philos[i - 1].left_fork;
+            t->philos[i].right_fork = &t->forks[i - 1];
+        pthread_mutex_init(&t->forks[i], NULL);
         if (pthread_create(&t->philos[i].thread, NULL, &ft_routine, &t->philos[i]) != 0)
-            exit(3);
+            ft_end_sim(t);
         i++;
     }
 }
 
 void    ft_init_table(char **argv, t_table *t)
 {
-    t->start_time = ft_get_time_mil();
     t->philo_nbr = ft_atoi(argv[1]); //protec
     t->time_to_die = ft_atoi(argv[2]);
     t->time_to_eat = ft_atoi(argv[3]);

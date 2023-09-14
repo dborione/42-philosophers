@@ -19,9 +19,7 @@ int main(int argc, char **argv)
     if (!ft_check_args(argc, argv))
         ft_parsing_error(1);
     ft_init_table(argv, &t);
-    ft_init_mutex(&t);
     ft_init_philos(&t);
-    ft_destroy_mutex(&t);
-	ft_join_threads(&t);
+    ft_end_sim(&t);
     return (0);
 }

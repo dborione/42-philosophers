@@ -55,7 +55,9 @@ void    ft_init_table(char **argv, t_table *t);
 void    ft_init_philos(t_table *t);
 void    ft_init_mutex(t_table *t);
 void    ft_destroy_mutex(t_table *t);
-void	ft_end_sim(t_philo * p);
+void	ft_end_sim(t_table *t);
 void    ft_parsing_error(int error);
+void    ft_free_and_exit(t_table *t);
+void	ft_usleep(size_t time);
 
 #endif
