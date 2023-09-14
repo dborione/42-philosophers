@@ -18,8 +18,14 @@ void	ft_print_msg(int status, t_philo *p)
 
 	time = ft_get_time_mil() - p->t->start_time;
 	pthread_mutex_lock(&(p->t->msg));
+	if (ft_is_dead(p))
+	{
+		printf("%zu ms %zu died\n", time, p->id);
+   		pthread_mutex_unlock(&(p->t->msg));
+		ft_end_sim(p->t);
+	}
 	if (status == 6)
-	printf("%zu ms nbr of meals for %zu: %zu\n", time, p->id, p->meal_nbr);
+		printf("%zu ms nbr of meals for %zu: %zu\n", time, p->id, p->meal_nbr);
 	if (status == PICKING_FORK)
 		printf("%zu ms %zu has taken a fork\n", time, p->id);
 	if (status == EATING)
@@ -27,9 +33,7 @@ void	ft_print_msg(int status, t_philo *p)
 	if (status == SLEEPING)
 		printf("%zu ms %zu is sleeping\n", time, p->id);
 	if (status == THINKING)
-		printf("%zu ms %zu is thinking\n", time, p->id);
-	if (status == DEAD)
-		printf("%zu ms %zu died\n", time, p->id);
+		printf("%zu ms %zu is thinking\n", time, p->id);	
    	pthread_mutex_unlock(&(p->t->msg));
 }
 
@@ -48,8 +52,6 @@ void	ft_usleep(size_t time)
 	start_time = ft_get_time_mil();
 	while (ft_get_time_mil() < start_time + time)
 		usleep(200);
-	//usleep(time * 1000);
-	// diviser par 200
 }
 
 static int	ft_atoi_convert(const char *str, int i, int sign, unsigned long res)

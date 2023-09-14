@@ -12,26 +12,44 @@
 
 #include "../includes/philo.h"
 
-void    ft_init_philos(t_table *t)
+void    ft_mutex_init(pthread_mutex_t *mutex, t_table *t)
+{
+    if (pthread_mutex_init(mutex, NULL))
+    {
+        printf("error with mutex initialisation\n");
+        ft_free_and_exit(t);
+    }
+}
+
+void    ft_init_all_mutex(t_table *t)
 {
     size_t i;
 
     i = 0;
-    t->start_time = ft_get_time_mil();
-    pthread_mutex_init(&t->death, NULL); //protec
-    pthread_mutex_init(&t->msg, NULL); //protec
+    ft_mutex_init(&t->death, t);
+    ft_mutex_init(&t->msg, t);
     while (i < t->philo_nbr)
     {
-        t->philos[i].last_meal_time = t->start_time;
-       // t->philos[i].meal_nbr = 0; 
-        t->philos[i].id = i + 1;
+        ft_mutex_init(&t->forks[i], t);
+        i++;
+    }
+}
+
+void    ft_init_philos(t_table *t)
+{
+    size_t i;
+
+    i = 0; 
+    while (i < t->philo_nbr)
+    {
         t->philos[i].t = t;
+        t->philos[i].id = i + 1;
+        t->philos[i].last_meal_time = t->start_time;
         t->philos[i].left_fork = &t->forks[i];
-        if (i == 0)
+        if (t->philos[i].id == 1)
             t->philos[i].right_fork = &t->forks[t->philo_nbr - 1];
         else
-            t->philos[i].right_fork = &t->forks[i - 1];
-        pthread_mutex_init(&t->forks[i], NULL);
+            t->philos[i].right_fork = t->philos[i - 1].left_fork;
         if (pthread_create(&t->philos[i].thread, NULL, &ft_routine, &t->philos[i]) != 0)
             ft_end_sim(t);
         i++;
@@ -52,4 +70,6 @@ void    ft_init_table(char **argv, t_table *t)
     t->forks = malloc(sizeof(*t->forks) * t->philo_nbr);//protec
     if (!t->forks)
         ft_free_and_exit(t);
+    ft_init_all_mutex(t);
+    t->start_time = ft_get_time_mil();
 }

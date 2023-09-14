@@ -59,5 +59,5 @@ void	ft_end_sim(t_table *t);
 void    ft_parsing_error(int error);
 void    ft_free_and_exit(t_table *t);
 void	ft_usleep(size_t time);
-
+int   ft_is_dead(t_philo *p);
 #endif
