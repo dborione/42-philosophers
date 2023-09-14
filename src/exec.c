@@ -39,29 +39,24 @@ void    ft_sleep(t_philo  *p)
     ft_usleep(p->t->time_to_sleep); //->gettimeofday - starttime
 }
 
-void	ft_lock_forks(t_philo *p)
-{
-    pthread_mutex_lock(p->left_fork);
-    ft_print_msg(PICKING_FORK, p);
-    pthread_mutex_lock(p->right_fork);
-    ft_print_msg(PICKING_FORK, p);
-}
-
-void	ft_unlock_forks(t_philo *p)
-{
-	pthread_mutex_unlock(p->left_fork);
-    pthread_mutex_unlock(p->right_fork);
-}
-
 void    ft_eat(t_philo  *p)
 {
 	// exception if only one philo
-	ft_lock_forks(p);
+	// pthread_mutex_lock(p->left_fork);
+	pthread_mutex_lock(&p->t->forks[p->id - 1]);
+    ft_print_msg(PICKING_FORK, p);
+    // pthread_mutex_lock(p->right_fork);
+	pthread_mutex_lock(&p->t->forks[p->id]);
+    ft_print_msg(PICKING_FORK, p);
 	ft_print_msg(EATING, p);
     p->t->total_meals_nbr++;
     p->last_meal_time = ft_get_time_mil();
     ft_usleep(p->t->time_to_eat);
-	ft_unlock_forks(p);
+	// pthread_mutex_unlock(p->left_fork);
+    // pthread_mutex_unlock(p->right_fork);
+	pthread_mutex_unlock(&p->t->forks[p->id - 1]);
+	pthread_mutex_unlock(&p->t->forks[p->id]);
+
 }
 
 void    *ft_routine(void *philo)
