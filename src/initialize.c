@@ -45,11 +45,6 @@ void    ft_init_philos(t_table *t)
         t->philos[i].t = t;
         t->philos[i].id = i + 1;
         t->philos[i].last_meal_time = t->start_time;
-        // t->philos[i].left_fork = &t->forks[i];
-        // if (t->philos[i].id == 1)
-        //     t->philos[i].right_fork = &t->forks[t->philo_nbr - 1];
-        // else
-        //     t->philos[i].right_fork = t->philos[i - 1].left_fork;
         if (pthread_create(&t->philos[i].thread, NULL, &ft_routine, &t->philos[i]) != 0)
             ft_end_sim(t);
         i++;

@@ -12,20 +12,18 @@
 
 #include "../includes/philo.h"
 
-void	ft_print_msg(int status, t_philo *p)
+void ft_print_msg(int status, t_philo *p)
 {
-	size_t	time;
+	size_t time;
 
-	time = ft_get_time_mil() - p->t->start_time;
 	pthread_mutex_lock(&(p->t->msg));
+	time = ft_get_time_mil() - p->t->start_time;
 	if (ft_is_dead(p))
 	{
 		printf("%zu ms %zu died\n", time, p->id);
-   		pthread_mutex_unlock(&(p->t->msg));
+		pthread_mutex_unlock(&(p->t->msg));
 		ft_end_sim(p->t);
 	}
-	if (status == 6)
-		printf("%zu ms nbr of meals for %zu: %zu\n", time, p->id, p->meal_nbr);
 	if (status == PICKING_FORK)
 		printf("%zu ms %zu has taken a fork\n", time, p->id);
 	if (status == EATING)
@@ -33,28 +31,29 @@ void	ft_print_msg(int status, t_philo *p)
 	if (status == SLEEPING)
 		printf("%zu ms %zu is sleeping\n", time, p->id);
 	if (status == THINKING)
-		printf("%zu ms %zu is thinking\n", time, p->id);	
-   	pthread_mutex_unlock(&(p->t->msg));
+		printf("%zu ms %zu is thinking\n", time, p->id);
+	pthread_mutex_unlock(&(p->t->msg));
 }
 
-size_t    ft_get_time_mil(void)
+size_t ft_get_time_mil(void)
 {
 	struct timeval tv;
 
-    gettimeofday(&tv, NULL);
+	if (gettimeofday(&tv, NULL))
+		return (0);
 	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }
 
-void	ft_usleep(size_t time)
+void ft_usleep(size_t time)
 {
 	size_t start_time;
-
+	// check if philo dead
 	start_time = ft_get_time_mil();
 	while (ft_get_time_mil() < start_time + time)
 		usleep(200);
 }
 
-static int	ft_atoi_convert(const char *str, int i, int sign, unsigned long res)
+static int ft_atoi_convert(const char *str, int i, int sign, unsigned long res)
 {
 	while (str[i] >= '0' && str[i] <= '9')
 	{
@@ -67,19 +66,18 @@ static int	ft_atoi_convert(const char *str, int i, int sign, unsigned long res)
 	return (res * sign);
 }
 
-int	ft_atoi(const char *str)
+int ft_atoi(const char *str)
 {
-	unsigned long long		res;
-	int						sign;
-	int						count;
-	int						i;
+	unsigned long long res;
+	int sign;
+	int count;
+	int i;
 
 	res = 0;
 	count = 0;
 	sign = 1;
 	i = 0;
-	while (str[i] == '\t' || str[i] == '\n' || str[i] == '\r'
-		|| str[i] == '\v' || str[i] == '\f' || str[i] == ' ')
+	while (str[i] == '\t' || str[i] == '\n' || str[i] == '\r' || str[i] == '\v' || str[i] == '\f' || str[i] == ' ')
 		i++;
 	while (str[i] == '-' || str[i] == '+')
 	{

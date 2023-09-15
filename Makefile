@@ -12,7 +12,7 @@
 
 #	Compiler
 CC = gcc
-CFLAGS = -Wall -Wextra -pthread #-Werror
+CFLAGS = -Wall -Wextra -Werror -pthread #-fsanitize=thread 
 
 #	Sources
 FILES = main.c utils.c initialize.c	\
