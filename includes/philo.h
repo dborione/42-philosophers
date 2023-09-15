@@ -37,6 +37,8 @@ typedef struct s_philo {
 typedef struct s_table {
     size_t          dead_nbr;
     pthread_mutex_t dead_nbr_mutex;
+    int             dead_philo_id;
+    size_t          dead_philo_time;
     size_t          start_time;
     size_t          philo_nbr;
     size_t          time_to_die;
