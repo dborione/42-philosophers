@@ -46,13 +46,13 @@ static void ft_sleep(t_philo *p)
 static int ft_eat(t_philo *p)
 {
     pthread_mutex_lock(p->left_fork);
+    ft_print_msg(PICKING_FORK, p);
     if (p->t->philo_nbr == 1)
     {
         pthread_mutex_unlock(p->left_fork);
         ft_print_dead(p, ft_get_time_mil());
         return (0);
     }
-    ft_print_msg(PICKING_FORK, p);
     pthread_mutex_lock(p->right_fork);
     ft_print_msg(PICKING_FORK, p);
     ft_print_msg(EATING, p);

@@ -36,6 +36,8 @@ int ft_check_args(int argc, char **argv)
             if (!ft_isdigit(argv[i][j]))
                 return (0);
         }
+        if (ft_atoi(argv[i]) == 0)
+            return (0);
         j = -1;
     }
     return (1);

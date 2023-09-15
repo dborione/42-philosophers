@@ -55,14 +55,17 @@ int ft_init_philos(t_table *t)
     return (1);
 }
 
-int ft_init_table(char **argv, t_table *t)
+int ft_init_table(int argc, char **argv, t_table *t)
 {
     //t->status = IDLE;
     t->philo_nbr = ft_atoi(argv[1]);
     t->time_to_die = ft_atoi(argv[2]);
     t->time_to_eat = ft_atoi(argv[3]);
     t->time_to_sleep = ft_atoi(argv[4]);
-    t->time_philo_must_eat = ft_atoi(argv[5]);
+    if (argc == 6)
+        t->time_philo_must_eat = ft_atoi(argv[5]);
+    else
+        t->time_philo_must_eat = -1;
     t->total_meals_nbr = 0;
     t->philos = malloc(sizeof(*t->philos) * t->philo_nbr);
     if (!t->philos)

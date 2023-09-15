@@ -52,7 +52,7 @@ typedef struct s_table {
 int ft_check_args(int argc, char **argv);
 
 // Initialisation
-int ft_init_table(char **argv, t_table *t);
+int ft_init_table(int argc, char **argv, t_table *t);
 int	ft_atoi(const char *str);
 int ft_init_mutex(t_table *t);
 int ft_init_philos(t_table *table);

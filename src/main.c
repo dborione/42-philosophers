@@ -18,7 +18,7 @@ int main(int argc, char **argv)
 
     if (!ft_check_args(argc, argv))
         return (ft_print_error(ERROR_PARSING));
-    if (!ft_init_table(argv, &t))
+    if (!ft_init_table(argc, argv, &t))
         return (ft_print_error(ERROR_INIT_TABLE));
     if (!ft_init_mutex(&t))
         return (ft_print_error(ERROR_MUTEX));
