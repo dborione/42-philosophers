@@ -1,5 +1,14 @@
 #include "../includes/philo.h"
 
+int ft_free_all(t_table *t)
+{
+    if (t->philos)
+        free(t->philos);
+    if (t->forks)
+        free(t->forks);
+    return (0);
+}
+
 void ft_destroy_mutex(t_table *t)
 {
     size_t i;
@@ -24,17 +33,6 @@ void ft_join_threads(t_table *t)
         pthread_join(t->philos[i].thread, NULL); // free mallocs
         i++;
     }
-    ft_free_and_exit(t);
-}
-
-void ft_free_and_exit(t_table *t)
-{
-    if (t->philos)
-        free(t->philos);
-    if (t->forks)
-        free(t->forks);
-    // printf error message
-    exit(0);
 }
 
 void ft_end_sim(t_table *t)

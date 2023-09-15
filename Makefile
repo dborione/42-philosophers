@@ -12,11 +12,12 @@
 
 #	Compiler
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -pthread #-fsanitize=thread 
+CFLAGS = -Wall -Wextra  -pthread #-fsanitize=thread 
 
 #	Sources
-FILES = main.c utils.c initialize.c	\
-		exec.c parsing.c threads_utils.c \
+FILES = main.c print_msg.c initialise.c	\
+		routine.c parsing.c end_sim.c \
+		atoi.c time_utils.c print_error.c \
 
 FILES_BONUS = main_bonus.c
 

@@ -12,18 +12,7 @@
 
 #include "../includes/philo.h"
 
-void    ft_parsing_error(int error)
-{
-    if (error == 1)
-    {
-        printf("args must be:");
-        printf(" number_of_philosophers time_to_die time_to_eat "); 
-        printf("time_to_sleep [number_of_times_each_philosopher_must_eat]\n");
-        exit(error);
-    }
-}
-
-int	ft_isdigit(int c)
+static int	ft_isdigit(int c)
 {
 	if (c >= '0' && c <= '9')
 		return (1);
@@ -49,6 +38,5 @@ int ft_check_args(int argc, char **argv)
         }
         j = -1;
     }
-    // verif if one arg is 0
     return (1);
 }

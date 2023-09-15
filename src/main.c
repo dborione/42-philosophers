@@ -17,9 +17,14 @@ int main(int argc, char **argv)
     t_table t;
 
     if (!ft_check_args(argc, argv))
-        ft_parsing_error(1);
-    ft_init_table(argv, &t);
-    ft_init_philos(&t);
+        return (ft_print_error(ERROR_PARSING));
+    if (!ft_init_table(argv, &t))
+        return (ft_print_error(ERROR_INIT_TABLE));
+    if (!ft_init_mutex(&t))
+        return (ft_print_error(ERROR_MUTEX));
+    if(!ft_init_philos(&t))
+        return (ft_print_error(ERROR_INIT_PHILO));
     ft_end_sim(&t);
+    ft_free_all(&t);
     return (0);
 }

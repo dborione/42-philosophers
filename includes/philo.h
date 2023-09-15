@@ -13,6 +13,11 @@
 # define EATING 3
 # define PICKING_FORK 4
 
+# define ERROR_PARSING 1
+# define ERROR_INIT_TABLE 2
+# define ERROR_MUTEX 3
+# define ERROR_INIT_PHILO 4
+
 typedef struct s_table  t_table;
 
 typedef struct s_philo {
@@ -21,6 +26,8 @@ typedef struct s_philo {
     size_t          last_meal_time;
     pthread_mutex_t meal_mutex;
     size_t          meal_nbr;
+    pthread_mutex_t *right_fork;
+    pthread_mutex_t *left_fork;
     t_table         *t;
 }   t_philo;
 
@@ -38,24 +45,37 @@ typedef struct s_table {
     t_philo         *philos;
 }   t_table;
 
+// Parsing
 int ft_check_args(int argc, char **argv);
+
+// Initialisation
+int ft_init_table(char **argv, t_table *t);
 int	ft_atoi(const char *str);
-void    *ft_routine(void *philo);
-void    ft_init_sim(char **argv);
-void    ft_init_table(char **argv, t_table *table);
-void    ft_init_philos(t_table *table);
+int ft_init_mutex(t_table *t);
+int ft_init_philos(t_table *table);
+
+// Free
+int    ft_free_all(t_table *t);
+
+// Error
+int ft_print_error(int error_code);
+
+// Time
+void ft_usleep(size_t time);
+
+//Print
+void	ft_print_msg(int status, t_philo *p);
+
+
+
 void    *ft_routine(void *philo);
 size_t  ft_get_time_mil();
-void	ft_print_msg(int status, t_philo *p);
 void    ft_join_threads(t_table *t);
 void    ft_destroy_mutex(t_table *t);
-void    ft_init_table(char **argv, t_table *t);
-void    ft_init_philos(t_table *t);
-void    ft_init_mutex(t_table *t);
+
+
 void    ft_destroy_mutex(t_table *t);
 void	ft_end_sim(t_table *t);
-void    ft_parsing_error(int error);
-void    ft_free_and_exit(t_table *t);
-void	ft_usleep(size_t time);
+int    ft_parsing_error(int error_code);
 int   ft_is_dead(t_philo *p);
 #endif

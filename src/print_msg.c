@@ -12,18 +12,22 @@
 
 #include "../includes/philo.h"
 
+// int	ft_print_dead(t_philo *p, size_t time)
+// {
+	
+// 	pthread_mutex_unlock(&(p->t->msg));
+// 	ft_end_sim(p->t);
+// 	return (0);
+// }
+
 void ft_print_msg(int status, t_philo *p)
 {
-	size_t time;
+	size_t	time;
 
 	pthread_mutex_lock(&(p->t->msg));
 	time = ft_get_time_mil() - p->t->start_time;
-	if (ft_is_dead(p))
-	{
-		printf("%zu ms %zu died\n", time, p->id);
-		pthread_mutex_unlock(&(p->t->msg));
-		ft_end_sim(p->t);
-	}
+	// if (ft_is_dead(p) || status == DEAD)
+	// 	return (ft_print_dead(p, time));
 	if (status == PICKING_FORK)
 		printf("%zu ms %zu has taken a fork\n", time, p->id);
 	if (status == EATING)
@@ -33,60 +37,4 @@ void ft_print_msg(int status, t_philo *p)
 	if (status == THINKING)
 		printf("%zu ms %zu is thinking\n", time, p->id);
 	pthread_mutex_unlock(&(p->t->msg));
-}
-
-size_t ft_get_time_mil(void)
-{
-	struct timeval tv;
-
-	if (gettimeofday(&tv, NULL))
-		return (0);
-	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
-}
-
-void ft_usleep(size_t time)
-{
-	size_t start_time;
-	// check if philo dead
-	start_time = ft_get_time_mil();
-	while (ft_get_time_mil() < start_time + time)
-		usleep(200);
-}
-
-static int ft_atoi_convert(const char *str, int i, int sign, unsigned long res)
-{
-	while (str[i] >= '0' && str[i] <= '9')
-	{
-		if (res > __LONG_MAX__ && sign == -1)
-			return (0);
-		else if (res > __LONG_MAX__)
-			return (-1);
-		res = res * 10 + (str[i++] - '0');
-	}
-	return (res * sign);
-}
-
-int ft_atoi(const char *str)
-{
-	unsigned long long res;
-	int sign;
-	int count;
-	int i;
-
-	res = 0;
-	count = 0;
-	sign = 1;
-	i = 0;
-	while (str[i] == '\t' || str[i] == '\n' || str[i] == '\r' || str[i] == '\v' || str[i] == '\f' || str[i] == ' ')
-		i++;
-	while (str[i] == '-' || str[i] == '+')
-	{
-		if (str[i] == '-')
-			sign = -1;
-		i++;
-		count++;
-	}
-	if (count > 1)
-		return (0);
-	return (ft_atoi_convert(str, i, sign, res));
 }
