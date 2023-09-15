@@ -25,14 +25,17 @@ int ft_is_dead(t_philo *p)
     size_t time;
 
     pthread_mutex_lock(&p->t->death);
+    pthread_mutex_lock(&p->t->meal_mutex);
     time = ft_get_time_mil();
     if (time - p->last_meal_time > p->t->time_to_die 
         || p->t->total_meals_nbr >= p->t->time_philo_must_eat)
     {
         ft_print_dead2(p, time);
         pthread_mutex_unlock(&p->t->death);
+        pthread_mutex_unlock(&p->t->meal_mutex);
         return (1);
     }
+    pthread_mutex_unlock(&p->t->meal_mutex);
     pthread_mutex_unlock(&p->t->death);
     return (0);
 }
