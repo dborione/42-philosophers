@@ -12,14 +12,6 @@
 
 #include "../includes/philo.h"
 
-void    ft_print_dead2(t_philo *p, size_t time)
-{
-    pthread_mutex_lock(&p->t->msg);
-    time = time - p->t->start_time;
-    printf("%zu ms %zu died\n", time, p->id);
-    pthread_mutex_unlock(&p->t->msg);
-}
-
 int ft_is_dead(t_philo *p)
 {
     size_t time;
@@ -30,13 +22,13 @@ int ft_is_dead(t_philo *p)
     if (time - p->last_meal_time > p->t->time_to_die 
         || p->t->total_meals_nbr >= p->t->time_philo_must_eat)
     {
-        ft_print_dead2(p, time);
+        ft_print_dead(p, time);
         pthread_mutex_unlock(&p->t->death);
         pthread_mutex_unlock(&p->t->meal_mutex);
         return (1);
     }
-    pthread_mutex_unlock(&p->t->meal_mutex);
     pthread_mutex_unlock(&p->t->death);
+    pthread_mutex_unlock(&p->t->meal_mutex);
     return (0);
 }
 
@@ -51,23 +43,27 @@ static void ft_sleep(t_philo *p)
     ft_usleep(p->t->time_to_sleep);
 }
 
-static void ft_eat(t_philo *p)
+static int ft_eat(t_philo *p)
 {
-    // exception if only one philo
     pthread_mutex_lock(p->left_fork);
+    if (p->t->philo_nbr == 1)
+    {
+        pthread_mutex_unlock(p->left_fork);
+        ft_print_dead(p, ft_get_time_mil());
+        return (0);
+    }
     ft_print_msg(PICKING_FORK, p);
     pthread_mutex_lock(p->right_fork);
     ft_print_msg(PICKING_FORK, p);
     ft_print_msg(EATING, p);
-
     pthread_mutex_lock(&p->t->meal_mutex);
     p->t->total_meals_nbr++;
     pthread_mutex_unlock(&p->t->meal_mutex);
-
     p->last_meal_time = ft_get_time_mil();
     ft_usleep(p->t->time_to_eat);
     pthread_mutex_unlock(p->left_fork);
     pthread_mutex_unlock(p->right_fork);
+    return (1);
 }
 
 void *ft_routine(void *philo)
@@ -79,10 +75,12 @@ void *ft_routine(void *philo)
         ft_usleep(p->t->time_to_eat / 2);
     while (!ft_is_dead(p))
     {
-        ft_eat(p);
+        if (!ft_eat(p))
+            return (NULL);
+        if (ft_is_dead(p))
+            return (NULL);
         ft_sleep(p);
         ft_think(p);
     }
-    //ft_print_msg(DEAD, p);
-    return (p);
+    return (NULL);
 }

@@ -12,6 +12,7 @@
 # define THINKING 2
 # define EATING 3
 # define PICKING_FORK 4
+# define IDLE 5
 
 # define ERROR_PARSING 1
 # define ERROR_INIT_TABLE 2
@@ -32,6 +33,7 @@ typedef struct s_philo {
 }   t_philo;
 
 typedef struct s_table {
+    //int             status;
     size_t          start_time;
     size_t          philo_nbr;
     size_t          time_to_die;
@@ -66,7 +68,7 @@ void ft_usleep(size_t time);
 
 //Print
 void	ft_print_msg(int status, t_philo *p);
-
+void    ft_print_dead(t_philo *p, size_t time);
 
 
 void    *ft_routine(void *philo);

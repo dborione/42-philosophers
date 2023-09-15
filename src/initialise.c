@@ -57,6 +57,7 @@ int ft_init_philos(t_table *t)
 
 int ft_init_table(char **argv, t_table *t)
 {
+    //t->status = IDLE;
     t->philo_nbr = ft_atoi(argv[1]);
     t->time_to_die = ft_atoi(argv[2]);
     t->time_to_eat = ft_atoi(argv[3]);

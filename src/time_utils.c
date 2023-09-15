@@ -12,7 +12,6 @@ void ft_usleep(size_t time)
 {
 	size_t start_time;
 
-	// check if philo dead
 	start_time = ft_get_time_mil();
 	while (ft_get_time_mil() < start_time + time)
 		usleep(100);

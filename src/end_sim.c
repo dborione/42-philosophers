@@ -31,7 +31,7 @@ void ft_join_threads(t_table *t)
     i = 0;
     while (i < t->philo_nbr)
     {
-        pthread_join(t->philos[i].thread, NULL); // free mallocs
+        pthread_join(t->philos[i].thread, NULL);
         i++;
     }
 }
