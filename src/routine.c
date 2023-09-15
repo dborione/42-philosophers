@@ -14,7 +14,8 @@
 
 void    ft_print_dead2(t_philo *p, size_t time)
 {
-    pthread_mutex_unlock(&p->t->msg);
+    pthread_mutex_lock(&p->t->msg);
+    time = time - p->t->start_time;
     printf("%zu ms %zu died\n", time, p->id);
     pthread_mutex_unlock(&p->t->msg);
 }
