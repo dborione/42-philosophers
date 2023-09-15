@@ -39,6 +39,7 @@ typedef struct s_table {
     size_t          time_to_eat;
     size_t          time_philo_must_eat;
     size_t          total_meals_nbr;
+    pthread_mutex_t meal_mutex;;
     pthread_mutex_t death;
     pthread_mutex_t msg;
     pthread_mutex_t *forks;

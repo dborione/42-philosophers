@@ -55,12 +55,14 @@ static void ft_eat(t_philo *p)
     ft_print_msg(PICKING_FORK, p);
     pthread_mutex_lock(p->right_fork);
     ft_print_msg(PICKING_FORK, p);
-
     ft_print_msg(EATING, p);
+
+    pthread_mutex_lock(&p->t->meal_mutex);
     p->t->total_meals_nbr++;
+    pthread_mutex_unlock(&p->t->meal_mutex);
+
     p->last_meal_time = ft_get_time_mil();
     ft_usleep(p->t->time_to_eat);
-
     pthread_mutex_unlock(p->left_fork);
     pthread_mutex_unlock(p->right_fork);
 }
@@ -78,6 +80,6 @@ void *ft_routine(void *philo)
         ft_sleep(p);
         ft_think(p);
     }
-    ft_print_msg(DEAD, p);
+    //ft_print_msg(DEAD, p);
     return (p);
 }

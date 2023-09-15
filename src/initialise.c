@@ -17,6 +17,8 @@ int ft_init_mutex(t_table *t)
     size_t i;
 
     i = 0;
+    if (pthread_mutex_init(&t->meal_mutex, NULL))
+        return (ft_free_all(t));
     if (pthread_mutex_init(&t->death, NULL))
         return (ft_free_all(t));
     if (pthread_mutex_init(&t->msg, NULL))
