@@ -23,6 +23,8 @@ int ft_init_mutex(t_table *t)
         return (ft_free_all(t));
     if (pthread_mutex_init(&t->msg, NULL))
         return (ft_free_all(t));
+    if (pthread_mutex_init(&t->dead_nbr_mutex, NULL))
+        return (ft_free_all(t));
     while (i < t->philo_nbr)
     {
         if (pthread_mutex_init(&t->forks[i], NULL))
@@ -57,7 +59,6 @@ int ft_init_philos(t_table *t)
 
 int ft_init_table(int argc, char **argv, t_table *t)
 {
-    //t->status = IDLE;
     t->philo_nbr = ft_atoi(argv[1]);
     t->time_to_die = ft_atoi(argv[2]);
     t->time_to_eat = ft_atoi(argv[3]);
@@ -67,6 +68,7 @@ int ft_init_table(int argc, char **argv, t_table *t)
     else
         t->time_philo_must_eat = -1;
     t->total_meals_nbr = 0;
+    t->dead_nbr = 0;
     t->philos = malloc(sizeof(*t->philos) * t->philo_nbr);
     if (!t->philos)
         return (ft_free_all(t));
