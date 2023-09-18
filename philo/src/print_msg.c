@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   print_msg.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dborione <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/11 10:39:35 by dborione          #+#    #+#             */
-/*   Updated: 2023/09/11 10:39:36 by dborione         ###   ########.fr       */
+/*   Created: 2023/09/18 14:07:37 by dborione          #+#    #+#             */
+/*   Updated: 2023/09/18 14:08:26 by dborione         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
-int ft_print_msg(int status, t_philo *p)
+int	ft_print_msg(int status, t_philo *p)
 {
 	size_t	time;
 

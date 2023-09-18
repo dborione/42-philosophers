@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   atoi.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dborione <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/09/18 13:53:49 by dborione          #+#    #+#             */
+/*   Updated: 2023/09/18 13:55:11 by dborione         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/philo.h"
 
-static int ft_atoi_convert(const char *str, int i, int sign, unsigned long res)
+static int	ft_atoi_convert(const char *str, int i, int sign, unsigned long res)
 {
 	while (str[i] >= '0' && str[i] <= '9')
 	{
@@ -13,18 +25,19 @@ static int ft_atoi_convert(const char *str, int i, int sign, unsigned long res)
 	return (res * sign);
 }
 
-int ft_atoi(const char *str)
+int	ft_atoi(const char *str)
 {
-	unsigned long long res;
-	int sign;
-	int count;
-	int i;
+	unsigned long long	res;
+	int					sign;
+	int					count;
+	int					i;
 
 	res = 0;
 	count = 0;
 	sign = 1;
 	i = 0;
-	while (str[i] == '\t' || str[i] == '\n' || str[i] == '\r' || str[i] == '\v' || str[i] == '\f' || str[i] == ' ')
+	while (str[i] == '\t' || str[i] == '\n' || str[i] == '\r' 
+		|| str[i] == '\v' || str[i] == '\f' || str[i] == ' ')
 		i++;
 	while (str[i] == '-' || str[i] == '+')
 	{
