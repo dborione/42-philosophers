@@ -72,10 +72,10 @@ void	*ft_routine(void *philo)
 	t_philo	*p;
 
 	p = philo;
-
 	if (p->t->philo_nbr == 1)
 	{
-		printf("%zu %zu has taken a fork\n", ft_get_time_mil() - p->t->start_time, p->id);
+		printf("%zu %zu has taken a fork\n",
+			ft_get_time_mil() - p->t->start_time, p->id);
 		printf("%zu %zu died\n", p->t->time_to_die, p->id);
 		return (NULL);
 	}
