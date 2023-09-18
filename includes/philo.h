@@ -6,6 +6,7 @@
 # include <stdio.h>
 # include <sys/time.h> //gettimeofday
 # include <stdlib.h> //exit
+# include <stdatomic.h>
 
 # define DEAD 0
 # define SLEEPING 1
@@ -28,15 +29,14 @@ typedef struct s_philo {
     pthread_mutex_t status_mutex;
     int             status;
     pthread_mutex_t meal_mutex;
-    size_t          meal_nbr;
     pthread_mutex_t *right_fork;
     pthread_mutex_t *left_fork;
+    atomic_int      meal_nbr;
     t_table         *t;
 }   t_philo;
 
 typedef struct s_table {
-    size_t          dead_nbr;
-    pthread_mutex_t dead_nbr_mutex;
+    atomic_int         dead_nbr;
     int             dead_philo_id;
     size_t          dead_philo_time;
     size_t          start_time;

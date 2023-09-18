@@ -16,8 +16,6 @@ void ft_destroy_mutex(t_table *t)
     i = 0;
     pthread_mutex_destroy(&t->death);
     pthread_mutex_destroy(&t->msg);
-    pthread_mutex_destroy(&t->meal_mutex);
-    pthread_mutex_destroy(&t->dead_nbr_mutex);
     while (i < t->philo_nbr)
     {
         pthread_mutex_destroy(&t->forks[i]);

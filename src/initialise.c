@@ -17,13 +17,9 @@ int ft_init_mutex(t_table *t)
     size_t i;
 
     i = 0;
-    if (pthread_mutex_init(&t->meal_mutex, NULL))
-        return (ft_free_all(t));
     if (pthread_mutex_init(&t->death, NULL))
         return (ft_free_all(t));
     if (pthread_mutex_init(&t->msg, NULL))
-        return (ft_free_all(t));
-    if (pthread_mutex_init(&t->dead_nbr_mutex, NULL))
         return (ft_free_all(t));
     while (i < t->philo_nbr)
     {
@@ -45,6 +41,7 @@ int ft_init_philos(t_table *t)
         t->philos[i].t = t;
         t->philos[i].id = i + 1;
         t->philos[i].last_meal_time = t->start_time;
+        t->philos[i].meal_nbr = 0;
         t->philos[i].left_fork = &(t->forks[i]);
         if (t->philos[i].id == t->philo_nbr)
             t->philos[i].right_fork = &(t->forks[0]);

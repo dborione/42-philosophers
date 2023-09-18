@@ -24,11 +24,9 @@ int main(int argc, char **argv)
         return (ft_print_error(ERROR_MUTEX));
     if(!ft_init_philos(&t))
         return (ft_print_error(ERROR_INIT_PHILO));
-    if (t.dead_nbr == 1)
-        printf("philo died");
     ft_end_sim(&t);
     ft_free_all(&t);
     if (t.dead_nbr == 1)
-        printf("%zu ms %d died\n", t.dead_philo_time, t.dead_philo_id);
+        printf("%zu ms %d died\n", t.dead_philo_time - t.start_time, t.dead_philo_id);
     return (0);
 }
