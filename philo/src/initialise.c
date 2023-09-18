@@ -41,7 +41,7 @@ int	ft_init_philos(t_table *t)
 		t->philos[i].t = t;
 		t->philos[i].id = i + 1;
 		t->philos[i].last_meal_time = t->start_time;
-		t->philos[i].meal_nbr = 0;
+		t->meal_nbr = 0;
 		t->philos[i].left_fork = &(t->forks[i]);
 		if (t->philos[i].id == t->philo_nbr)
 			t->philos[i].right_fork = &(t->forks[0]);

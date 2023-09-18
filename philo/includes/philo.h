@@ -43,11 +43,11 @@ typedef struct s_philo {
 	atomic_size_t	last_meal_time;
 	pthread_mutex_t	*right_fork;
 	pthread_mutex_t	*left_fork;
-	atomic_int		meal_nbr;
 	t_table			*t;
 }	t_philo;
 
 typedef struct s_table {
+	atomic_int		meal_nbr;
 	size_t			philo_nbr;
 	size_t			time_to_die;
 	size_t			time_to_sleep;
