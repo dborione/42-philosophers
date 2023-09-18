@@ -50,7 +50,7 @@ int	ft_init_philos(t_table *t)
 		if (pthread_create(&t->philos[i].thread, NULL, 
 				&ft_routine, &t->philos[i]) != 0)
 		{
-			ft_end_sim(&t);
+			ft_end_sim(t);
 			return (ft_free_all(t));
 		}
 		i++;

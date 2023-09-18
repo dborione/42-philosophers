@@ -19,15 +19,10 @@ FILES = main.c print_msg.c initialise.c	\
 		routine.c parsing.c end_sim.c \
 		atoi.c time_utils.c print_error.c \
 
-FILES_BONUS = main_bonus.c
-
 SRCS = $(addprefix src/, $(FILES))
-
-SRCS_BONUS = $(addprefix src_bonus/, $(FILES_BONUS))
 
 #	Objects
 OBJS = $(SRCS:.c=.o)
-OBJS_BONUS = $(SRCS_BONUS:.c=.o)
 
 #	Others
 NAME = philo
@@ -53,7 +48,6 @@ $(NAME): $(OBJS)
 clean:
 	@echo "$(YELLOW)[Cleaning...]$(DEFAULT)"
 	$(RM) $(OBJS)
-#	$(RM) $(OBJS_BONUS)
 	@echo "$(RED)[Objects Cleaned!]$(DEAFULT)"
 
 fclean: clean

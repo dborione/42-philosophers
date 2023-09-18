@@ -27,7 +27,7 @@ int	main(int argc, char **argv)
 	ft_end_sim(&t);
 	ft_free_all(&t);
 	if (t.dead_nbr == 1)
-		printf("%zu ms %d died\n", t.dead_philo_time - t.start_time,
+		printf("%zu %d died\n", t.dead_philo_time - t.start_time,
 			t.dead_philo_id);
 	return (0);
 }

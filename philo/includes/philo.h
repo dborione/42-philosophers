@@ -13,11 +13,11 @@
 #ifndef PHILO_H
 # define PHILO_H
 
-# include <unistd.h> //NULL
+# include <unistd.h>
 # include <pthread.h>
 # include <stdio.h>
-# include <sys/time.h> //gettimeofday
-# include <stdlib.h> //exit
+# include <sys/time.h>
+# include <stdlib.h>
 # include <stdatomic.h>
 
 # define TRUE 1

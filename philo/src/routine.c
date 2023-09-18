@@ -6,7 +6,7 @@
 /*   By: dborione <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 14:08:46 by dborione          #+#    #+#             */
-/*   Updated: 2023/09/18 14:12:24 by dborione         ###   ########.fr       */
+/*   Updated: 2023/09/18 15:59:17 by dborione         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ int	ft_is_dead(t_philo *p)
 
 static int	ft_sleep(t_philo *p)
 {
+	if (p->t->dead_nbr == 1)
+		return (0);
 	if (!ft_print_msg(SLEEPING, p))
 		return (0);
 	ft_usleep(p->t->time_to_sleep);
@@ -83,6 +85,8 @@ void	*ft_routine(void *philo)
 		if (!ft_eat(p))
 			return (NULL);
 		if (!ft_sleep(p))
+			return (NULL);
+		if (p->t->dead_nbr == 1)
 			return (NULL);
 		if (!ft_print_msg(THINKING, p))
 			return (NULL);
