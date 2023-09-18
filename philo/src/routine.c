@@ -25,14 +25,8 @@ int ft_is_dead(t_philo *p)
 
     pthread_mutex_lock(&p->t->death);
     time = ft_get_time_mil();
-    // printf("%d ", p->t->dead_nbr);
-    // printf("%zu, ", p->id);
-    // printf("%zu, ", time);
-    // printf("%zu: ", p->last_meal_time);
-    // printf("%zu\n", time - p->last_meal_time);
     if (time - p->last_meal_time >= p->t->time_to_die)
     {
-        //printf("fjkds\n");
         ft_get_death_infos(p, time);
         pthread_mutex_unlock(&p->t->death);
         return (TRUE);
@@ -43,10 +37,12 @@ int ft_is_dead(t_philo *p)
     return (FALSE);
 }
 
-static void ft_sleep(t_philo *p)
+static int ft_sleep(t_philo *p)
 {
-    ft_print_msg(SLEEPING, p);
+    if (!ft_print_msg(SLEEPING, p))
+        return (0);
     ft_usleep(p->t->time_to_sleep);
+    return (1);
 }
 
 static int ft_eat(t_philo *p)
@@ -54,18 +50,21 @@ static int ft_eat(t_philo *p)
     if (p->t->dead_nbr == 1)
         return (0);
     pthread_mutex_lock(p->left_fork);
-    ft_print_msg(PICKING_FORK, p);
+    if (!ft_print_msg(PICKING_FORK, p))
+        return (0);
     if (p->t->philo_nbr == 1)
     {
         pthread_mutex_unlock(p->left_fork);
         return (0);
     }
     pthread_mutex_lock(p->right_fork);
-    ft_print_msg(PICKING_FORK, p);
-    ft_print_msg(EATING, p);
+    p->last_meal_time = ft_get_time_mil();
+    if (!ft_print_msg(PICKING_FORK, p))
+        return (0);
+    if (!ft_print_msg(EATING, p))
+        return (0);
     p->meal_nbr++;
     ft_usleep(p->t->time_to_eat);
-    p->last_meal_time = ft_get_time_mil();
     pthread_mutex_unlock(p->left_fork);
     pthread_mutex_unlock(p->right_fork);
     return (1);
@@ -78,20 +77,14 @@ void *ft_routine(void *philo)
     p = philo;
     if ((p->id % 2) == 0)
         ft_usleep(p->t->time_to_eat / 2);
-    //printf("%zu\n", p->last_meal_time);
-    //printf("%zu\n", p->t->start_time);
     while (!ft_is_dead(p))
     {
-        if (ft_is_dead(p))
-            return (NULL);
         if (!ft_eat(p))
             return (NULL);
-        if (ft_is_dead(p))
+        if (!ft_sleep(p))
             return (NULL);
-        ft_sleep(p);
-        if (ft_is_dead(p))
+        if (!ft_print_msg(THINKING, p))
             return (NULL);
-        ft_print_msg(THINKING, p);
     }
     return (NULL);
 }

@@ -75,7 +75,7 @@ int ft_print_error(int error_code);
 void ft_usleep(size_t time);
 
 //Print
-void	ft_print_msg(int status, t_philo *p);
+int	ft_print_msg(int status, t_philo *p);
 void    ft_print_dead(t_philo *p, size_t time);
 
 
