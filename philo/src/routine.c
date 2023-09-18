@@ -54,12 +54,6 @@ static int	ft_eat(t_philo *p)
 	pthread_mutex_lock(p->left_fork);
 	if (!ft_print_msg(PICKING_FORK, p))
 		return (0);
-	if (p->t->philo_nbr == 1)
-	{
-		pthread_mutex_unlock(p->left_fork);
-		ft_get_death_infos(p, ft_get_time_mil());
-		return (0);
-	}
 	pthread_mutex_lock(p->right_fork);
 	p->last_meal_time = ft_get_time_mil();
 	if (!ft_print_msg(PICKING_FORK, p))
@@ -78,6 +72,13 @@ void	*ft_routine(void *philo)
 	t_philo	*p;
 
 	p = philo;
+
+	if (p->t->philo_nbr == 1)
+	{
+		printf("%zu %zu has taken a fork\n", ft_get_time_mil() - p->t->start_time, p->id);
+		printf("%zu %zu died\n", p->t->time_to_die, p->id);
+		return (NULL);
+	}
 	if ((p->id % 2) == 0)
 		ft_usleep(p->t->time_to_eat / 2);
 	while (!ft_is_dead(p))
