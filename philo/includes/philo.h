@@ -8,6 +8,9 @@
 # include <stdlib.h> //exit
 # include <stdatomic.h>
 
+# define TRUE 1
+# define FALSE 0
+
 # define DEAD 0
 # define SLEEPING 1
 # define THINKING 2
@@ -25,7 +28,7 @@ typedef struct s_table  t_table;
 typedef struct s_philo {
     size_t          id;
     pthread_t       thread;
-    size_t          last_meal_time;
+    atomic_size_t   last_meal_time;
     pthread_mutex_t status_mutex;
     int             status;
     pthread_mutex_t meal_mutex;
@@ -36,7 +39,7 @@ typedef struct s_philo {
 }   t_philo;
 
 typedef struct s_table {
-    atomic_int         dead_nbr;
+    atomic_int      dead_nbr;
     int             dead_philo_id;
     size_t          dead_philo_time;
     size_t          start_time;
