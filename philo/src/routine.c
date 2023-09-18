@@ -55,6 +55,7 @@ static int ft_eat(t_philo *p)
     if (p->t->philo_nbr == 1)
     {
         pthread_mutex_unlock(p->left_fork);
+        ft_get_death_infos(p, ft_get_time_mil());
         return (0);
     }
     pthread_mutex_lock(p->right_fork);
