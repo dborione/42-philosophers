@@ -12,14 +12,6 @@
 
 #include "../includes/philo.h"
 
-void    ft_print_dead(t_philo *p, size_t time)
-{
-    pthread_mutex_lock(&p->t->msg);
-    time = time - p->t->start_time;
-    printf("%zu ms %zu died\n", time, p->id);
-    pthread_mutex_unlock(&p->t->msg);
-}
-
 int ft_print_msg(int status, t_philo *p)
 {
 	size_t	time;

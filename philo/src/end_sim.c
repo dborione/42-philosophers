@@ -9,7 +9,7 @@ int ft_free_all(t_table *t)
     return (0);
 }
 
-void ft_destroy_mutex(t_table *t)
+static void ft_destroy_mutex(t_table *t)
 {
     size_t i;
 
@@ -23,7 +23,7 @@ void ft_destroy_mutex(t_table *t)
     }
 }
 
-void ft_join_threads(t_table *t)
+static void ft_join_threads(t_table *t)
 {
     size_t i;
 

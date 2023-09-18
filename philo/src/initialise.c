@@ -64,7 +64,6 @@ int ft_init_table(int argc, char **argv, t_table *t)
         t->time_philo_must_eat = ft_atoi(argv[5]);
     else
         t->time_philo_must_eat = -1;
-    t->total_meals_nbr = 0;
     t->dead_nbr = 0;
     t->dead_philo_id = 0;
     t->dead_philo_time = 0;
