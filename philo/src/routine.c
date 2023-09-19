@@ -12,26 +12,28 @@
 
 #include "../includes/philo.h"
 
-static void	ft_get_death_infos(t_philo *p, size_t time)
-{
-	p->t->dead_nbr = 1;
-	p->t->dead_philo_id = p->id;
-	p->t->dead_philo_time = time;
-}
+// static void	ft_get_death_infos(t_philo *p, size_t time)
+// {
+// 	p->t->dead_nbr = 1;
+// 	p->t->dead_philo_id = p->id;
+// 	p->t->dead_philo_time = time;
+// }
 
 int	ft_is_dead(t_philo *p)
 {
 	size_t	time;
 
-	pthread_mutex_lock(&p->t->death);
+	// pthread_mutex_lock(&p->t->death);
 	time = ft_get_time_mil();
 	if (time - p->last_meal_time >= p->t->time_to_die)
 	{
-		ft_get_death_infos(p, time);
-		pthread_mutex_unlock(&p->t->death);
+		//ft_get_death_infos(p, time);
+		// pthread_mutex_unlock(&p->t->death);
+		if (!ft_print_msg(DEAD, p))
+			return (0);
 		return (TRUE);
 	}
-	pthread_mutex_unlock(&p->t->death);
+	// pthread_mutex_unlock(&p->t->death);
 	if (p->meal_nbr >= p->t->time_philo_must_eat)
 		return (TRUE);
 	return (FALSE);
@@ -91,6 +93,7 @@ void	*ft_routine(void *philo)
 			return (NULL);
 		if (!ft_print_msg(THINKING, p))
 			return (NULL);
+		//ft_usleep(100);
 	}
 	return (NULL);
 }
