@@ -40,6 +40,7 @@ int	ft_init_philos(t_table *t)
 	{
 		t->philos[i].t = t;
 		t->philos[i].id = i + 1;
+		t->philos[i].status = IDLE;
 		t->philos[i].last_meal_time = t->start_time;
 		t->philos[i].meal_nbr = 0;
 		t->philos[i].left_fork = &(t->forks[i]);

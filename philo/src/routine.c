@@ -12,6 +12,14 @@
 
 #include "../includes/philo.h"
 
+static void    *ft_one_philo(t_philo *p)
+{
+	printf("%zu %zu has taken a fork\n",
+		ft_get_time_mil() - p->t->start_time, p->id);
+	printf("%zu %zu died\n", p->t->time_to_die, p->id);
+	return (NULL);
+}
+
 static int	ft_sleep(t_philo *p)
 {
 	if (!ft_print_msg(SLEEPING, p))
@@ -50,14 +58,6 @@ static int	ft_eat(t_philo *p)
     }
     ft_unlock_forks(p);
 	return (1);
-}
-
-static void    *ft_one_philo(t_philo *p)
-{
-	printf("%zu %zu has taken a fork\n",
-		ft_get_time_mil() - p->t->start_time, p->id);
-	printf("%zu %zu died\n", p->t->time_to_die, p->id);
-	return (NULL);
 }
 
 void	*ft_routine(void *philo)

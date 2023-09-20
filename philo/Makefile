@@ -17,7 +17,7 @@ CFLAGS = -Wall -Wextra -Werror #-fsanitize=thread
 #	Sources
 FILES = main.c print_msg.c initialise.c	\
 		routine.c parsing.c end_sim.c \
-		atoi.c time_utils.c print_error.c \
+		atoi.c time_utils.c print_error.c check_death.c \
 
 SRCS = $(addprefix src/, $(FILES))
 

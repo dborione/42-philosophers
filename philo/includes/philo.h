@@ -44,6 +44,7 @@ typedef struct s_philo {
 	pthread_mutex_t	*right_fork;
 	pthread_mutex_t	*left_fork;
 	atomic_int		meal_nbr;
+	atomic_int		status;
 	t_table			*t;
 }	t_philo;
 
@@ -78,8 +79,7 @@ size_t	ft_get_time_mil(void);
 int	ft_usleep(t_philo *p, size_t time);
 
 //Print
-int		ft_print_msg(int status, t_philo *p);
-void	ft_print_dead(t_philo *p, size_t time);
+int		ft_print_msg(atomic_int status, t_philo *p);
 
 // Exec
 void	*ft_routine(void *philo);
