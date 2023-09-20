@@ -21,6 +21,13 @@ static int	ft_sleep(t_philo *p)
 	return (1);
 }
 
+static int ft_unlock_forks(t_philo *p)
+{
+    pthread_mutex_unlock(p->left_fork);
+	pthread_mutex_unlock(p->right_fork);
+	return (0);
+}
+
 static int	ft_eat(t_philo *p)
 {
 	pthread_mutex_lock(p->left_fork);
@@ -32,26 +39,16 @@ static int	ft_eat(t_philo *p)
 	pthread_mutex_lock(p->right_fork);
 	p->last_meal_time = ft_get_time_mil();
 	if (!ft_print_msg(PICKING_FORK, p))
-    {
-		pthread_mutex_unlock(p->left_fork);
-	    pthread_mutex_unlock(p->right_fork);
-		return (0);
-    }
+        return (ft_unlock_forks(p));
 	if (!ft_print_msg(EATING, p))
-    {
-        pthread_mutex_unlock(p->left_fork);
-	    pthread_mutex_unlock(p->right_fork);
-		return (0);
-    }
+        return (ft_unlock_forks(p));
 	p->meal_nbr++;
 	if (!ft_usleep(p, p->t->time_to_eat))
     {
-        pthread_mutex_unlock(p->left_fork);
-	    pthread_mutex_unlock(p->right_fork);
+        ft_unlock_forks(p);
 		return (ft_print_msg(DEAD, p));
     }
-	pthread_mutex_unlock(p->left_fork);
-	pthread_mutex_unlock(p->right_fork);
+    ft_unlock_forks(p);
 	return (1);
 }
 
