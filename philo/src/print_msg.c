@@ -12,16 +12,31 @@
 
 #include "../includes/philo.h"
 
+int	ft_is_dead(t_philo *p)
+{
+	atomic_size_t	time;
+
+	time = ft_get_time_mil();
+	if (time - p->last_meal_time >= p->t->time_to_die)
+    {
+        p->t->dead_nbr = 1;
+		return (TRUE);
+    }
+	if (p->meal_nbr >= p->t->time_philo_must_eat)
+		return (TRUE);
+	return (FALSE);
+}
+
 int	ft_print_msg(int status, t_philo *p)
 {
-	size_t	time;
+	atomic_size_t	time;
 
 	if (p->t->dead_nbr == 1)
 		return (0);
 	pthread_mutex_lock(&p->t->msg);
 	pthread_mutex_lock(&p->t->death);
 	time = ft_get_time_mil() - p->t->start_time;
-	if (ft_is_dead(p))
+	if (status == DEAD || ft_is_dead(p))
 	{
 		printf("%zu %zu died\n", time, p->id);
 		pthread_mutex_unlock(&p->t->death);

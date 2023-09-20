@@ -12,53 +12,55 @@
 
 #include "../includes/philo.h"
 
-int	ft_is_dead(t_philo *p)
-{
-	atomic_size_t	time;
-
-	//pthread_mutex_lock(&p->t->death);
-	time = ft_get_time_mil();
-	if (time - p->last_meal_time >= p->t->time_to_die)
-    {
-        p->t->dead_nbr = 1;
-	    //pthread_mutex_unlock(&p->t->death);
-		return (TRUE);
-    }
-	if (p->meal_nbr >= p->t->time_philo_must_eat)
-		return (TRUE);
-	//pthread_mutex_unlock(&p->t->death);
-	return (FALSE);
-}
-
 static int	ft_sleep(t_philo *p)
 {
-	// if (p->t->dead_nbr == 1)
-	// 	return (0);
 	if (!ft_print_msg(SLEEPING, p))
 		return (0);
-   // while (!ft_is_dead(p))
-	    ft_usleep(p->t->time_to_sleep);
+	if (!ft_usleep(p, p->t->time_to_sleep))
+        return (ft_print_msg(DEAD, p));
 	return (1);
 }
 
 static int	ft_eat(t_philo *p)
 {
-	// if (p->t->dead_nbr == 1)
-	// 	return (0);
 	pthread_mutex_lock(p->left_fork);
 	if (!ft_print_msg(PICKING_FORK, p))
+    {
+	    pthread_mutex_unlock(p->left_fork);
 		return (0);
+    }
 	pthread_mutex_lock(p->right_fork);
 	p->last_meal_time = ft_get_time_mil();
 	if (!ft_print_msg(PICKING_FORK, p))
+    {
+		pthread_mutex_unlock(p->left_fork);
+	    pthread_mutex_unlock(p->right_fork);
 		return (0);
+    }
 	if (!ft_print_msg(EATING, p))
+    {
+        pthread_mutex_unlock(p->left_fork);
+	    pthread_mutex_unlock(p->right_fork);
 		return (0);
+    }
 	p->meal_nbr++;
-	ft_usleep(p->t->time_to_eat);
+	if (!ft_usleep(p, p->t->time_to_eat))
+    {
+        pthread_mutex_unlock(p->left_fork);
+	    pthread_mutex_unlock(p->right_fork);
+		return (ft_print_msg(DEAD, p));
+    }
 	pthread_mutex_unlock(p->left_fork);
 	pthread_mutex_unlock(p->right_fork);
 	return (1);
+}
+
+static void    *ft_one_philo(t_philo *p)
+{
+	printf("%zu %zu has taken a fork\n",
+		ft_get_time_mil() - p->t->start_time, p->id);
+	printf("%zu %zu died\n", p->t->time_to_die, p->id);
+	return (NULL);
 }
 
 void	*ft_routine(void *philo)
@@ -67,25 +69,17 @@ void	*ft_routine(void *philo)
 
 	p = philo;
 	if (p->t->philo_nbr == 1)
-	{
-		printf("%zu %zu has taken a fork\n",
-			ft_get_time_mil() - p->t->start_time, p->id);
-		printf("%zu %zu died\n", p->t->time_to_die, p->id);
-		return (NULL);
-	}
+        return (ft_one_philo(p));
 	if ((p->id % 2) == 0)
-		ft_usleep(p->t->time_to_eat / 2);
+		ft_usleep(p, p->t->time_to_eat / 2);
 	while (!ft_is_dead(p))
 	{
 		if (!ft_eat(p))
 			return (NULL);
 		if (!ft_sleep(p))
 			return (NULL);
-		// if (p->t->dead_nbr == 1)
-		// 	return (NULL);
 		if (!ft_print_msg(THINKING, p))
 			return (NULL);
-		//ft_usleep(100);
 	}
 	return (NULL);
 }

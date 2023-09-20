@@ -54,9 +54,7 @@ typedef struct s_table {
 	size_t			time_to_eat;
 	size_t			time_philo_must_eat;
 	atomic_int		dead_nbr;
-	int				dead_philo_id;
-	size_t			dead_philo_time;
-	size_t			start_time;
+	atomic_size_t	start_time;
 	pthread_mutex_t	death;
 	pthread_mutex_t	msg;
 	pthread_mutex_t	*forks;
@@ -77,7 +75,7 @@ int		ft_print_error(int error_code);
 
 // Time
 size_t	ft_get_time_mil(void);
-void	ft_usleep(size_t time);
+int	ft_usleep(t_philo *p, size_t time);
 
 //Print
 int		ft_print_msg(int status, t_philo *p);

@@ -20,12 +20,16 @@ size_t	ft_get_time_mil(void)
 	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }
 
-void	ft_usleep(size_t time)
+int	ft_usleep(t_philo *p, size_t time)
 {
 	size_t	start_time;
 
 	start_time = ft_get_time_mil();
-	//while (!ft_is_dead)
 	while (ft_get_time_mil() < start_time + time)
+	{
+		if (ft_is_dead(p))
+			return (0);
 		usleep(100);
+	}
+	return (1);
 }
