@@ -28,7 +28,7 @@ int	ft_usleep(t_philo *p, size_t time)
 	while (ft_get_time_mil() < start_time + time)
 	{
 		if (ft_is_dead(p))
-			return (ft_print_msg(DEAD, p));
+			return (0);
 		usleep(100);
 	}
 	return (1);

@@ -20,7 +20,7 @@ int	ft_is_dead(t_philo *p)
 	time = ft_get_time_mil();
 	if (time - p->last_meal_time >= p->t->time_to_die)
     {
-        p->t->sim_status = DONE;
+        //p->t->sim_status = DONE;
 	    pthread_mutex_unlock(&p->t->death);
         return (TRUE);
     }
