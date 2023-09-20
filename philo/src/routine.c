@@ -25,7 +25,7 @@ static int	ft_sleep(t_philo *p)
 	if (!ft_print_msg(SLEEPING, p))
 		return (0);
 	if (!ft_usleep(p, p->t->time_to_sleep))
-        return (ft_print_msg(DEAD, p));
+        return (0);
 	return (1);
 }
 
@@ -69,11 +69,15 @@ void	*ft_routine(void *philo)
         return (ft_one_philo(p));
 	if ((p->id % 2) == 0)
 		ft_usleep(p, p->t->time_to_eat / 2);
-	while (!ft_is_dead(p))
+	while (p->t->sim_status != DONE && !ft_is_dead(p))
 	{
 		if (!ft_eat(p))
 			return (NULL);
+		if (p->t->sim_status == DONE)
+			return (NULL);
 		if (!ft_sleep(p))
+			return (NULL);
+		if (p->t->sim_status == DONE)
 			return (NULL);
 		if (!ft_print_msg(THINKING, p))
 			return (NULL);

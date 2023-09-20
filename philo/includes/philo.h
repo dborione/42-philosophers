@@ -23,6 +23,9 @@
 # define TRUE 1
 # define FALSE 0
 
+# define RUNNING 1
+# define DONE 0
+
 # define DEAD 0
 # define SLEEPING 1
 # define THINKING 2
@@ -44,7 +47,6 @@ typedef struct s_philo {
 	pthread_mutex_t	*right_fork;
 	pthread_mutex_t	*left_fork;
 	atomic_int		meal_nbr;
-	atomic_int		status;
 	t_table			*t;
 }	t_philo;
 
@@ -55,6 +57,7 @@ typedef struct s_table {
 	size_t			time_to_eat;
 	size_t			time_philo_must_eat;
 	atomic_int		dead_nbr;
+	atomic_int		sim_status;
 	atomic_size_t	start_time;
 	pthread_mutex_t	death;
 	pthread_mutex_t	msg;

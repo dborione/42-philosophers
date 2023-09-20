@@ -40,7 +40,6 @@ int	ft_init_philos(t_table *t)
 	{
 		t->philos[i].t = t;
 		t->philos[i].id = i + 1;
-		t->philos[i].status = IDLE;
 		t->philos[i].last_meal_time = t->start_time;
 		t->philos[i].meal_nbr = 0;
 		t->philos[i].left_fork = &(t->forks[i]);
@@ -69,7 +68,7 @@ int	ft_init_table(int argc, char **argv, t_table *t)
 		t->time_philo_must_eat = ft_atoi(argv[5]);
 	else
 		t->time_philo_must_eat = -1;
-	t->dead_nbr = 0;
+	t->sim_status = RUNNING;
 	t->philos = malloc(sizeof(*t->philos) * t->philo_nbr);
 	if (!t->philos)
 		return (ft_free_all(t));

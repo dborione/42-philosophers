@@ -17,16 +17,13 @@ int	ft_print_msg(atomic_int status, t_philo *p)
 	atomic_size_t	time;
 
 	pthread_mutex_lock(&p->t->msg);
-	pthread_mutex_lock(&p->t->death);
 	time = ft_get_time_mil() - p->t->start_time;
-	if (p->status == DEAD || ft_is_dead(p))
+	if (ft_is_dead(p))
 	{
 		printf("%zu %zu died\n", time, p->id);
-		pthread_mutex_unlock(&p->t->death);
 		pthread_mutex_unlock(&p->t->msg);
 		return (0);
 	}
-	pthread_mutex_unlock(&p->t->death);
 	if (status == PICKING_FORK)
 		printf("%zu %zu has taken a fork\n", time, p->id);
 	if (status == EATING)
