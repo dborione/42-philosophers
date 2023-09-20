@@ -78,7 +78,10 @@ void	*ft_routine(void *philo)
 		if (!ft_sleep(p))
 			return (NULL);
 		if (ft_is_dead(p))
+		{
+			ft_print_msg(DEAD, p);
 			return (NULL);
+		}
 		ft_print_msg(THINKING, p);
 	}
 	return (NULL);
