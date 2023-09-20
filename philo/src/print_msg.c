@@ -16,18 +16,19 @@ int	ft_print_msg(int status, t_philo *p)
 {
 	size_t	time;
 
-	pthread_mutex_lock(&(p->t->msg));
+	if (p->t->dead_nbr == 1)
+		return (0);
+	pthread_mutex_lock(&p->t->msg);
 	pthread_mutex_lock(&p->t->death);
+	time = ft_get_time_mil() - p->t->start_time;
 	if (ft_is_dead(p))
 	{
+		printf("%zu %zu died\n", time, p->id);
 		pthread_mutex_unlock(&p->t->death);
-		pthread_mutex_unlock(&(p->t->msg));
+		pthread_mutex_unlock(&p->t->msg);
 		return (0);
 	}
 	pthread_mutex_unlock(&p->t->death);
-	time = ft_get_time_mil() - p->t->start_time;
-	if (status == DEAD)
-		printf("%zu %zu died\n", time, p->id);
 	if (status == PICKING_FORK)
 		printf("%zu %zu has taken a fork\n", time, p->id);
 	if (status == EATING)
@@ -36,6 +37,6 @@ int	ft_print_msg(int status, t_philo *p)
 		printf("%zu %zu is sleeping\n", time, p->id);
 	if (status == THINKING)
 		printf("%zu %zu is thinking\n", time, p->id);
-	pthread_mutex_unlock(&(p->t->msg));
+	pthread_mutex_unlock(&p->t->msg);
 	return (1);
 }

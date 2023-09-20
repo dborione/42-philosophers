@@ -69,8 +69,8 @@ int	ft_init_table(int argc, char **argv, t_table *t)
 	else
 		t->time_philo_must_eat = -1;
 	t->dead_nbr = 0;
-	t->dead_philo_id = 0;
-	t->dead_philo_time = 0;
+	//t->dead_philo_id = 0;
+	//t->dead_philo_time = 0;
 	t->philos = malloc(sizeof(*t->philos) * t->philo_nbr);
 	if (!t->philos)
 		return (ft_free_all(t));

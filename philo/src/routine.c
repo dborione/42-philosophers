@@ -12,47 +12,39 @@
 
 #include "../includes/philo.h"
 
-// static void	ft_get_death_infos(t_philo *p, size_t time)
-// {
-// 	p->t->dead_nbr = 1;
-// 	p->t->dead_philo_id = p->id;
-// 	p->t->dead_philo_time = time;
-// }
-
 int	ft_is_dead(t_philo *p)
 {
-	size_t	time;
+	atomic_size_t	time;
 
-	// pthread_mutex_lock(&p->t->death);
+	//pthread_mutex_lock(&p->t->death);
 	time = ft_get_time_mil();
 	if (time - p->last_meal_time >= p->t->time_to_die)
-	{
-		//ft_get_death_infos(p, time);
-		// pthread_mutex_unlock(&p->t->death);
-		if (!ft_print_msg(DEAD, p))
-			return (0);
+    {
+        p->t->dead_nbr = 1;
+	    //pthread_mutex_unlock(&p->t->death);
 		return (TRUE);
-	}
-	// pthread_mutex_unlock(&p->t->death);
+    }
 	if (p->meal_nbr >= p->t->time_philo_must_eat)
 		return (TRUE);
+	//pthread_mutex_unlock(&p->t->death);
 	return (FALSE);
 }
 
 static int	ft_sleep(t_philo *p)
 {
-	if (p->t->dead_nbr == 1)
-		return (0);
+	// if (p->t->dead_nbr == 1)
+	// 	return (0);
 	if (!ft_print_msg(SLEEPING, p))
 		return (0);
-	ft_usleep(p->t->time_to_sleep);
+   // while (!ft_is_dead(p))
+	    ft_usleep(p->t->time_to_sleep);
 	return (1);
 }
 
 static int	ft_eat(t_philo *p)
 {
-	if (p->t->dead_nbr == 1)
-		return (0);
+	// if (p->t->dead_nbr == 1)
+	// 	return (0);
 	pthread_mutex_lock(p->left_fork);
 	if (!ft_print_msg(PICKING_FORK, p))
 		return (0);
@@ -89,8 +81,8 @@ void	*ft_routine(void *philo)
 			return (NULL);
 		if (!ft_sleep(p))
 			return (NULL);
-		if (p->t->dead_nbr == 1)
-			return (NULL);
+		// if (p->t->dead_nbr == 1)
+		// 	return (NULL);
 		if (!ft_print_msg(THINKING, p))
 			return (NULL);
 		//ft_usleep(100);
