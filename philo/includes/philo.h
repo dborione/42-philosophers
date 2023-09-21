@@ -56,6 +56,7 @@ typedef struct s_table {
 	size_t			time_to_sleep;
 	size_t			time_to_eat;
 	size_t			time_philo_must_eat;
+	atomic_int		full_philos_nbr;
 	atomic_int		dead_nbr;
 	atomic_int		sim_status;
 	atomic_size_t	start_time;
@@ -87,6 +88,7 @@ int		ft_print_msg(atomic_int status, t_philo *p);
 // Exec
 void	*ft_routine(void *philo);
 int		ft_is_dead(t_philo *p);
+int	ft_is_full(t_philo *p);
 
 // Free and exit
 int		ft_free_all(t_table *t);

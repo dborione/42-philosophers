@@ -55,6 +55,9 @@ static int	ft_eat(t_philo *p)
 	if (!ft_print_msg(EATING, p))
         return (ft_unlock_forks(p));
 	p->meal_nbr++;
+	if (p->t->time_philo_must_eat > 0 
+		&& p->meal_nbr == p->t->time_philo_must_eat)
+		p->t->full_philos_nbr--;
 	if (!ft_usleep(p, p->t->time_to_eat))
     {
         ft_unlock_forks(p);

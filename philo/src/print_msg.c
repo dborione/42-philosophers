@@ -17,6 +17,9 @@ static int	ft_print_death(t_philo *p, atomic_size_t time)
 	p->t->sim_status = DONE;
 	if (p->t->dead_nbr == 1)
 		printf("%zu %zu died\n", time, p->id);
+	// if (p->t->dead_nbr == 2)
+		// printf("%d\n", p->t->full_philos_nbr);
+		// printf("%zu %zu is full\n", time, p->id);
 	pthread_mutex_unlock(&p->t->msg);
 	return (0);
 }
@@ -31,6 +34,7 @@ int	ft_print_msg(atomic_int status, t_philo *p)
 		pthread_mutex_unlock(&p->t->msg);
 		return (0);
 	}
+		// printf("%d\n", p->t->full_philos_nbr);
 	time = ft_get_time_mil() - p->t->start_time;
 	if (status == DEAD || ft_is_dead(p))
 		return (ft_print_death(p, time));
