@@ -17,9 +17,6 @@ static int	ft_print_death(t_philo *p, atomic_size_t time)
 	p->t->sim_status = DONE;
 	if (p->t->dead_nbr == 1)
 		printf("%zu %zu died\n", time, p->id);
-	// if (p->t->dead_nbr == 2)
-		// printf("%d\n", p->t->full_philos_nbr);
-		// printf("%zu %zu is full\n", time, p->id);
 	pthread_mutex_unlock(&p->t->msg);
 	return (0);
 }
@@ -29,18 +26,18 @@ int	ft_print_msg(atomic_int status, t_philo *p)
 	atomic_size_t	time;
 
 	pthread_mutex_lock(&p->t->msg);
+	//printf("%d\n", p->t->dead_nbr);
 	if (p->t->sim_status == DONE)
 	{
 		pthread_mutex_unlock(&p->t->msg);
 		return (0);
 	}
-		// printf("%d\n", p->t->full_philos_nbr);
 	time = ft_get_time_mil() - p->t->start_time;
 	if (status == DEAD || ft_is_dead(p))
 		return (ft_print_death(p, time));
-	if (status == PICKING_FORK)
+	if (status == PICKING_FORK && p->meal_nbr < p->t->time_philo_must_eat)
 		printf("%zu %zu has taken a fork\n", time, p->id);
-	if (status == EATING)
+	if (status == EATING && p->meal_nbr < p->t->time_philo_must_eat)
 		printf("%zu %zu is eating\n", time, p->id);
 	if (status == SLEEPING)
 		printf("%zu %zu is sleeping\n", time, p->id);

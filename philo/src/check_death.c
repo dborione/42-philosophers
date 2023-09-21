@@ -26,7 +26,6 @@ int	ft_is_dead(t_philo *p)
     }
 	if (p->t->full_philos_nbr == 0)
 	{
-		p->t->dead_nbr = 2;
 		pthread_mutex_unlock(&p->t->death);
         return (TRUE);
 	}
