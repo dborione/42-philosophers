@@ -22,9 +22,7 @@ static void    *ft_one_philo(t_philo *p)
 
 static int	ft_sleep(t_philo *p)
 {
-	if (!ft_is_dead(p))
-		ft_print_msg(SLEEPING, p);
-	else
+	if (!ft_print_msg(SLEEPING, p))
 		return (0);
 	if (!ft_usleep(p, p->t->time_to_sleep))
         return (ft_print_msg(DEAD, p));
@@ -77,12 +75,8 @@ void	*ft_routine(void *philo)
 			return (NULL);
 		if (!ft_sleep(p))
 			return (NULL);
-		if (ft_is_dead(p))
-		{
-			ft_print_msg(DEAD, p);
+		if (!ft_print_msg(THINKING, p))
 			return (NULL);
-		}
-		ft_print_msg(THINKING, p);
 	}
 	return (NULL);
 }
