@@ -18,11 +18,15 @@ int	ft_is_dead(t_philo *p)
 
 	pthread_mutex_lock(&p->t->death);
 	time = ft_get_time_mil();
-	if (time - p->last_meal_time >= p->t->time_to_die
-		|| p->meal_nbr >= p->t->time_philo_must_eat)
-	{
+	if (time - p->last_meal_time >= p->t->time_to_die)
+    {
 	    pthread_mutex_unlock(&p->t->death);
         return (TRUE);
+    }
+	if (p->meal_nbr >= p->t->time_philo_must_eat)
+    {
+	    pthread_mutex_unlock(&p->t->death);
+		return (TRUE);
     }
 	pthread_mutex_unlock(&p->t->death);
 	return (FALSE);

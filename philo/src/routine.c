@@ -22,6 +22,8 @@ static void    *ft_one_philo(t_philo *p)
 
 static int	ft_sleep(t_philo *p)
 {
+	if (p->t->sim_status == DONE)
+		return (0);
 	if (!ft_print_msg(SLEEPING, p))
 		return (0);
 	if (!ft_usleep(p, p->t->time_to_sleep))
@@ -38,6 +40,8 @@ static int ft_unlock_forks(t_philo *p)
 
 static int	ft_eat(t_philo *p)
 {
+	if (p->t->sim_status == DONE)
+		return (0);
 	pthread_mutex_lock(p->left_fork);
 	if (!ft_print_msg(PICKING_FORK, p))
     {
@@ -69,11 +73,13 @@ void	*ft_routine(void *philo)
         return (ft_one_philo(p));
 	if ((p->id % 2) == 0)
 		ft_usleep(p, p->t->time_to_eat / 2);
-	while (!ft_is_dead(p))
+	while (p->t->sim_status != DONE)
 	{
 		if (!ft_eat(p))
 			return (NULL);
 		if (!ft_sleep(p))
+			return (NULL);
+		if (p->t->sim_status == DONE)
 			return (NULL);
 		if (!ft_print_msg(THINKING, p))
 			return (NULL);
