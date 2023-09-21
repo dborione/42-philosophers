@@ -26,7 +26,6 @@ int	ft_print_msg(atomic_int status, t_philo *p)
 	atomic_size_t	time;
 
 	pthread_mutex_lock(&p->t->msg);
-	//printf("%d\n", p->t->dead_nbr);
 	if (p->t->sim_status == DONE)
 	{
 		pthread_mutex_unlock(&p->t->msg);
