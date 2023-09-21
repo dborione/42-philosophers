@@ -22,12 +22,12 @@ int	ft_print_msg(atomic_int status, t_philo *p)
 		pthread_mutex_unlock(&p->t->msg);
 		return (0);
 	}
-	//printf("%d\n", p->t->sim_status);
 	time = ft_get_time_mil() - p->t->start_time;
 	if (status == DEAD || ft_is_dead(p))
 	{
 		p->t->sim_status = DONE;
-		printf("%zu %zu died\n", time, p->id);
+		if (p->t->dead_nbr == 1)
+			printf("%zu %zu died\n", time, p->id);
 		pthread_mutex_unlock(&p->t->msg);
 		return (0);
 	}
