@@ -52,13 +52,13 @@ typedef struct s_philo {
 
 typedef struct s_table {
 	size_t			philo_nbr;
+	atomic_int		full_philos_nbr;
 	size_t			time_to_die;
 	size_t			time_to_sleep;
 	size_t			time_to_eat;
 	size_t			time_philo_must_eat;
-	atomic_int		full_philos_nbr;
-	atomic_int		dead_nbr;
 	atomic_int		sim_status;
+	atomic_int		dead_nbr;
 	atomic_size_t	start_time;
 	pthread_mutex_t	death;
 	pthread_mutex_t	msg;
