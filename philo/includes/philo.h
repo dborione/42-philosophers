@@ -6,7 +6,7 @@
 /*   By: dborione <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 13:53:18 by dborione          #+#    #+#             */
-/*   Updated: 2023/09/18 13:53:21 by dborione         ###   ########.fr       */
+/*   Updated: 2023/09/21 15:07:25 by dborione         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int		ft_print_error(int error_code);
 
 // Time
 size_t	ft_get_time_mil(void);
-int	ft_usleep(t_philo *p, size_t time);
+int		ft_usleep(t_philo *p, size_t time);
 
 //Print
 int		ft_print_msg(atomic_int status, t_philo *p);
@@ -88,7 +88,6 @@ int		ft_print_msg(atomic_int status, t_philo *p);
 // Exec
 void	*ft_routine(void *philo);
 int		ft_is_dead(t_philo *p);
-int	ft_is_full(t_philo *p);
 
 // Free and exit
 int		ft_free_all(t_table *t);
