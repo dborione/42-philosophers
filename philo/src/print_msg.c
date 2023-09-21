@@ -16,10 +16,13 @@ int	ft_print_msg(atomic_int status, t_philo *p)
 {
 	atomic_size_t	time;
 
-	if (p->t->sim_status == DONE)
-		return (0);
 	pthread_mutex_lock(&p->t->msg);
-	printf("%d\n", p->t->sim_status);
+	if (p->t->sim_status == DONE)
+	{
+		pthread_mutex_unlock(&p->t->msg);
+		return (0);
+	}
+	//printf("%d\n", p->t->sim_status);
 	time = ft_get_time_mil() - p->t->start_time;
 	if (status == DEAD || ft_is_dead(p))
 	{
