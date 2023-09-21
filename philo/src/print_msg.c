@@ -12,6 +12,15 @@
 
 #include "../includes/philo.h"
 
+static int	ft_print_death(t_philo *p, atomic_size_t time)
+{
+	p->t->sim_status = DONE;
+	if (p->t->dead_nbr == 1)
+		printf("%zu %zu died\n", time, p->id);
+	pthread_mutex_unlock(&p->t->msg);
+	return (0);
+}
+
 int	ft_print_msg(atomic_int status, t_philo *p)
 {
 	atomic_size_t	time;
@@ -24,13 +33,7 @@ int	ft_print_msg(atomic_int status, t_philo *p)
 	}
 	time = ft_get_time_mil() - p->t->start_time;
 	if (status == DEAD || ft_is_dead(p))
-	{
-		p->t->sim_status = DONE;
-		if (p->t->dead_nbr == 1)
-			printf("%zu %zu died\n", time, p->id);
-		pthread_mutex_unlock(&p->t->msg);
-		return (0);
-	}
+		return (ft_print_death(p, time));
 	if (status == PICKING_FORK)
 		printf("%zu %zu has taken a fork\n", time, p->id);
 	if (status == EATING)

@@ -24,7 +24,15 @@ int	ft_is_dead(t_philo *p)
 	    pthread_mutex_unlock(&p->t->death);
         return (TRUE);
     }
-	if (p->meal_nbr > p->t->time_philo_must_eat)
+	if (p->t->philo_nbr % 2 == 0)
+	{
+		if (p->meal_nbr > p->t->time_philo_must_eat)
+		{
+	    	pthread_mutex_unlock(&p->t->death);
+			return (TRUE);
+   	 	}
+	}
+	if (p->meal_nbr > p->t->time_philo_must_eat + 1)
     {
 	    pthread_mutex_unlock(&p->t->death);
 		return (TRUE);
